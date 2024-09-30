@@ -3,7 +3,7 @@
 #### Control your ssh remote server using graphical user interface, run commands and read results. Create, edit, delete gui component ( as your command ), create profiles to manage multiple ssh hosts in the same gui
 
 ##### Download Windows Desktop App
-- [Google-Drive-Folder](https://drive.google.com/drive/folders/1Fw_sANe6mx-e9P2E3e_leCb6ssTtbbGt?usp=drive_link)
+- [Installation File](https://drive.google.com/drive/folders/1Fw_sANe6mx-e9P2E3e_leCb6ssTtbbGt?usp=drive_link)
 
 - [Github repo](https://github.com/eaeoz/command-manager-windows)
 
