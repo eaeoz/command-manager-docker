@@ -1,0 +1,9 @@
+version: "3"
+services:
+  app:
+    image: eaeoz/ssh-shortcut-windows:latest # Or you can build directly using build context
+    ports:
+      - "3000:3000" # Map port 3000 of the container to port 3000 of the host
+    volumes:
+      - ./config:/app/config
+    restart: unless-stopped # Automatically restart the container unless manually stopped
