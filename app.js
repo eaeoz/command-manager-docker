@@ -33,6 +33,7 @@ const PORT = process.env.PORT || 3000;
 const commandsFile = path.join(__dirname, 'config', process.env.COMMANDS_FILE || 'commands.json');
 const profilesFile = path.join(__dirname, 'config', process.env.PROFILES_FILE || 'profiles.json');
 
+
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -137,6 +138,11 @@ app.get('/', (req, res) => {
                 background-color: #45a049;
             }
 
+            .command-title-button:active {
+                transform: scale(0.85) translateY(2px);
+                transition: transform 0.1s ease-in-out;
+            }
+
             .command-actions {
                 display: none; /* Hidden initially */
                 height: 50%;
@@ -178,6 +184,20 @@ app.get('/', (req, res) => {
                 cursor: pointer;
                 padding-bottom: 5px;
                 padding-top: 5px;
+            }
+
+            .url-icon:hover {
+                translate: 0 6px;
+                transition: translate 0.2s ease-in-out;
+            }
+        
+            .gear-icon:hover {
+                opacity: 0.5;
+                transition: opacity 0.1s ease-in-out;
+            }
+        
+            .gear-icon:active {
+                translate: 0 2px;
             }
 
             .gear-icon img, .url-icon img {

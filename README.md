@@ -2,16 +2,6 @@
 
 #### Control your ssh remote server using graphical user interface, run commands and read results. Create, edit, delete gui component ( as your command ), create profiles to manage multiple ssh hosts in the same gui
 
-##### Download Windows Desktop App
-
-- [Installation File](https://drive.google.com/drive/folders/1Fw_sANe6mx-e9P2E3e_leCb6ssTtbbGt?usp=drive_link)
-
-- [Github repo](https://github.com/eaeoz/command-manager-windows)
-
----
-
-- Or run on docker host
-
 ##### docker-compose.yml
 
 ```
@@ -54,3 +44,11 @@ services:
 ```
 
 - You can change setting using config/.env file (this hidden file includes, port, timeout, and custom env file paths), then restart container for this
+
+---
+
+##### Download Windows Desktop App
+
+- [Instruction](https://github.com/eaeoz/command-manager-windows)
+
+- [Installation File](https://drive.google.com/drive/folders/1Fw_sANe6mx-e9P2E3e_leCb6ssTtbbGt?usp=drive_link)
