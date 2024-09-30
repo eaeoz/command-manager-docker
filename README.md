@@ -3,11 +3,10 @@
 #### Control your ssh remote server using graphical user interface, run commands and read results. Create, edit, delete gui component ( as your command ), create profiles to manage multiple ssh hosts in the same gui
 
 ##### Download Windows Desktop App
+
 - [Installation File](https://drive.google.com/drive/folders/1Fw_sANe6mx-e9P2E3e_leCb6ssTtbbGt?usp=drive_link)
 
 - [Github repo](https://github.com/eaeoz/command-manager-windows)
-
-
 
 ---
 
@@ -28,12 +27,12 @@ services:
 ```
 
 - To run and deploy container:
-`docker compose up -d`
+  `docker compose up -d`
 
 - Access from url:
-`http://<your-host-ip>:3000`
+  `http://<your-host-ip>:3000`
 
-##### config/profiles.json example ( you have to edit manually using correct values for your servers )
+##### config/profiles.json example ( you have to edit manually with sudo permissions using correct values for your servers )
 
 ```
 [
