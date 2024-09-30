@@ -33,7 +33,6 @@ const PORT = process.env.PORT || 3000;
 const commandsFile = path.join(__dirname, 'config', process.env.COMMANDS_FILE || 'commands.json');
 const profilesFile = path.join(__dirname, 'config', process.env.PROFILES_FILE || 'profiles.json');
 
-
 // Middleware
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
