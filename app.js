@@ -178,7 +178,7 @@ app.get('/', (req, res) => {
                 margin: 10% auto;
                 padding: 20px;
                 border: 1px solid #888;
-                width: 80%;
+                width: 33%;
                 max-width: 600px;
                 border-radius: 10px;
                 max-height: 80vh;
@@ -506,10 +506,16 @@ app.get('/', (req, res) => {
                 border-radius: 50px 50px;
             }
             .edit {
+                padding-left: 12px;
+                padding-bottom: 5px;
                 border-bottom-left-radius: 50px;
+                border-top-left-radius: 7px;
             }
             .delete {
+                padding-right: 12px;
+                padding-bottom: 5px;
                 border-bottom-right-radius: 50px;
+                border-top-right-radius: 7px;
             }
 
             .edit:active, .delete:active {

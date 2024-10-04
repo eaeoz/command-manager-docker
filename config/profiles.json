@@ -1,156 +1,16 @@
 [
   {
-    "title": "server8",
-    "username": "sedat",
-    "password": "987987",
-    "host": "192.168.10.2",
+    "title": "Profile 1",
+    "username": "user1",
+    "password": "password1",
+    "host": "192.168.10.11",
     "port": "22"
   },
   {
-    "title": "Profile 11",
-    "username": "user11",
-    "password": "password11",
-    "host": "192.168.10.21",
-    "port": 22
-  },
-  {
-    "title": "Profile 12",
-    "username": "user12",
-    "password": "password12",
-    "host": "192.168.10.22",
-    "port": 22
-  },
-  {
-    "title": "Profile 13",
-    "username": "user13",
-    "password": "password13",
-    "host": "192.168.10.23",
-    "port": 22
-  },
-  {
-    "title": "Profile 14",
-    "username": "user14",
-    "password": "password14",
-    "host": "192.168.10.24",
-    "port": 22
-  },
-  {
-    "title": "Profile 15",
-    "username": "user15",
-    "password": "password15",
-    "host": "192.168.10.25",
-    "port": 22
-  },
-  {
-    "title": "Profile 16",
-    "username": "user16",
-    "password": "password16",
-    "host": "192.168.10.26",
-    "port": 22
-  },
-  {
-    "title": "Profile 17",
-    "username": "user17",
-    "password": "password17",
-    "host": "192.168.10.27",
-    "port": 22
-  },
-  {
-    "title": "Profile 18",
-    "username": "user18",
-    "password": "password18",
-    "host": "192.168.10.28",
-    "port": 22
-  },
-  {
-    "title": "Profile 19",
-    "username": "user19",
-    "password": "password19",
-    "host": "192.168.10.29",
-    "port": 22
-  },
-  {
-    "title": "Profile 20",
-    "username": "user20",
-    "password": "password20",
-    "host": "192.168.10.30",
-    "port": 22
-  },
-  {
-    "title": "Profile 21",
-    "username": "user21",
-    "password": "password21",
-    "host": "192.168.10.31",
-    "port": 22
-  },
-  {
-    "title": "Profile 22",
-    "username": "user22",
-    "password": "password22",
-    "host": "192.168.10.32",
-    "port": 22
-  },
-  {
-    "title": "Profile 23",
-    "username": "user23",
-    "password": "password23",
-    "host": "192.168.10.33",
-    "port": 22
-  },
-  {
-    "title": "Profile 24",
-    "username": "user24",
-    "password": "password24",
-    "host": "192.168.10.34",
-    "port": 22
-  },
-  {
-    "title": "Profile 25",
-    "username": "user25",
-    "password": "password25",
-    "host": "192.168.10.35",
-    "port": 22
-  },
-  {
-    "title": "Profile 26",
-    "username": "user26",
-    "password": "password26",
-    "host": "192.168.10.36",
-    "port": 22
-  },
-  {
-    "title": "Profile 27",
-    "username": "user27",
-    "password": "password27",
-    "host": "192.168.10.37",
-    "port": 22
-  },
-  {
-    "title": "Profile 28",
-    "username": "user28",
-    "password": "password28",
-    "host": "192.168.10.38",
-    "port": 22
-  },
-  {
-    "title": "Profile 29",
-    "username": "user29",
-    "password": "password29",
-    "host": "192.168.10.39",
-    "port": 22
-  },
-  {
-    "title": "Profile 30",
-    "username": "user30",
-    "password": "password30",
-    "host": "192.168.10.40",
-    "port": 22
-  },
-  {
-    "title": "sdfgfdgfd",
-    "username": "dfg",
-    "password": "asdfsd",
-    "host": "asdf",
+    "title": "Profile 2",
+    "username": "user2",
+    "password": "password2",
+    "host": "192.168.10.12",
     "port": "22"
   }
 ]
