@@ -274,10 +274,12 @@ app.get('/', (req, res) => {
 
             .command-container {
                 flex: 1;
-                display: flex;
-                flex-wrap: wrap;
+                display: flex; 
                 justify-content: center;
-                gap: 10px;
+                flex-wrap: wrap;
+                align-content: flex-start;
+                flex-direction: row;   
+                gap: 15px;
                 overflow-y: auto; /* Allow scrolling for overflow */
                 padding: 1px
             }
