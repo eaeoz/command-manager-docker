@@ -690,6 +690,34 @@ app.post('/reorder', (req, res) => {
     res.sendStatus(200);
 });
 
+// Profile management API
+app.get('/api/profiles', (req, res) => {
+    res.json(loadProfiles());
+});
+
+app.post('/api/profiles', (req, res) => {
+    const profiles = loadProfiles();
+    profiles.push(req.body);
+    writeProfiles(profiles);
+    res.json({ message: 'Profile added successfully' });
+});
+
+app.put('/api/profiles/:index', (req, res) => {
+    const profiles = loadProfiles();
+    const index = req.params.index;
+    profiles[index] = req.body;
+    writeProfiles(profiles);
+    res.json({ message: 'Profile updated successfully' });
+});
+
+app.delete('/api/profiles/:index', (req, res) => {
+    const profiles = loadProfiles();
+    const index = req.params.index;
+    profiles.splice(index, 1);
+    writeProfiles(profiles);
+    res.json({ message: 'Profile deleted successfully' });
+});
+
 app.post('/commands', (req, res) => {
     const { title, command, url, profile } = req.body;
 
