@@ -1,23 +1,9 @@
 [
   {
-    "title": "Profile 6ffff",
-    "username": "user5555",
-    "password": "password6",
-    "host": "192.168.10.16",
-    "port": "22"
-  },
-  {
     "title": "Profile 7",
     "username": "user7",
     "password": "password7",
     "host": "192.168.10.17",
-    "port": 22
-  },
-  {
-    "title": "Profile 8",
-    "username": "user8",
-    "password": "password8",
-    "host": "192.168.10.18",
     "port": 22
   },
   {

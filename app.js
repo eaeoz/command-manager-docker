@@ -494,6 +494,11 @@ app.get('/', (req, res) => {
             .delete {
                 border-bottom-right-radius: 50px;
             }
+
+            .edit:active, .delete:active {
+                scale: 0.9;
+                translate: 0 2px;
+            }
             .submitButton {
                 border-bottom-left-radius: 50px;
                 border-bottom-right-radius: 50px;
