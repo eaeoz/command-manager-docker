@@ -90,6 +90,55 @@ app.get('/', (req, res) => {
                 text-align: center;
             }
 
+            /* Styling the quarter-circle button */
+            .quarter-circle-button {
+                position: fixed;
+                top: 0;
+                right: 0;
+                width: 80px;
+                height: 80px;
+                background-color: #333;
+                border-radius: 0 0 0 80px;
+                cursor: pointer;
+                display: flex;
+                justify-content: space-evenly;
+                align-items: center;
+                z-index: 1000;
+            }
+    
+            /* Hamburger icon */
+            .hamburger-icon {
+                width: 30px;
+                height: 3px;
+                background-color: white;
+                position: relative;
+                display: flex;
+                flex-direction: column;
+                justify-content: space-between;
+                left: 6px;
+                bottom: 6px;
+            }
+    
+            .hamburger-icon::before,
+            .hamburger-icon::after {
+                content: "";
+                width: 30px;
+                height: 3px;
+                background-color: white;
+                position: absolute;
+            }
+    
+            .hamburger-icon::before {
+                top: -10px;
+                border-radius: 10px 10px 0 0;
+            }
+    
+            .hamburger-icon::after {
+                bottom: -10px;
+                border-radius: 0 0 10px 10px;
+            }
+    
+
             .command-container {
                 flex: 1;
                 display: flex;
@@ -344,7 +393,10 @@ app.get('/', (req, res) => {
                 justify-content: center;
             }
         </style>
-
+        <!-- Quarter-circle button -->
+        <div class="quarter-circle-button" id="openFormButton">
+            <div class="hamburger-icon"></div>
+        </div>
         <div class="nav">
         <div class="container">
             <h1>Command Manager</h1>
