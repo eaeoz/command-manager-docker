@@ -214,7 +214,7 @@ app.get('/', (req, res) => {
 
             .profile-item {
                 display: flex;
-                justify-content: space-evenly;
+                justify-content: space-between;
                 padding: 10px;
                 background-color: #ddd;
                 border-radius: 5px;
