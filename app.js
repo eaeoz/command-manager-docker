@@ -1025,29 +1025,47 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
 
 
             function runCommand(command, profileTitle) {
-                fetch('/run', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ command, profileTitle })
-                })
-                .then(response => {
-                    if (!response.ok) {
-                        throw new Error(response.statusText);
-                    }
-                    return response.json();
-                })
-                .then(data => {
-                    const outputBox = document.getElementById('output');
-                    outputBox.innerText = data.output || '';
-                    outputBox.scrollTop = outputBox.scrollHeight;
-                    if (data.error) {
-                        showError(data.error);
-                    }
-                })
-                .catch(error => {
-                    showError(error.message);
-                });
+                // Fetch the profiles to check if the selected profile exists
+                fetch('/profiles')
+                    .then(response => response.json())
+                    .then(profiles => {
+                        const selectedProfile = profiles.find(profile => profile.title === profileTitle);
+            
+                        if (!selectedProfile) {
+                            // Show an alert if the profile is missing
+                            alert(\`Profile "\${profileTitle}" does not exist in profiles.json. Please update the profile data.\`);
+                            return; // Abort the command execution if profile is not found
+                        }
+            
+                        // Proceed with command execution if profile exists
+                        fetch('/run', {
+                            method: 'POST',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ command, profileTitle })
+                        })
+                        .then(response => {
+                            if (!response.ok) {
+                                throw new Error(response.statusText);
+                            }
+                            return response.json();
+                        })
+                        .then(data => {
+                            const outputBox = document.getElementById('output');
+                            outputBox.innerText = data.output || '';
+                            outputBox.scrollTop = outputBox.scrollHeight;
+                            if (data.error) {
+                                showError(data.error);
+                            }
+                        })
+                        .catch(error => {
+                            showError(error.message);
+                        });
+                    })
+                    .catch(error => {
+                        console.error('Error fetching profiles:', error);
+                    });
             }
+            
 
             function showError(message) {
                 const outputDiv = document.getElementById('output');
