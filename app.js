@@ -66,6 +66,11 @@ const loadProfiles = () => {
     return JSON.parse(data);
 };
 
+// Save profiles to file
+const saveProfiles = (profiles) => {
+    fs.writeFileSync(profilesFile, JSON.stringify(profiles, null, 2)); // Correctly named function
+};
+
 // Routes
 app.get('/', (req, res) => {
     const commands = loadCommands();
@@ -138,6 +143,97 @@ app.get('/', (req, res) => {
                 border-radius: 0 0 10px 10px;
             }
     
+            /* Profile Modal Styles */
+            .modal {
+                display: none;
+                position: fixed;
+                z-index: 1001;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                overflow: auto;
+                background-color: rgba(0, 0, 0, 0.7);
+            }
+
+            .modal-content {
+                background-color: #f4f4f4;
+                margin: 10% auto;
+                padding: 20px;
+                border: 1px solid #888;
+                width: 80%;
+                max-width: 600px;
+                border-radius: 10px;
+            }
+
+            .close {
+                color: #aaa;
+                float: right;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: black;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            .profile-list {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .profile-item {
+                display: flex;
+                justify-content: space-between;
+                padding: 10px;
+                background-color: #ddd;
+                border-radius: 5px;
+            }
+
+            .profile-item button {
+                background-color: #f44336;
+                color: white;
+                border: none;
+                cursor: pointer;
+                padding: 5px;
+                border-radius: 3px;
+            }
+
+            .profile-item button:hover {
+                background-color: #d32f2f;
+            }
+
+            .add-profile-form {
+                margin-top: 20px;
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .add-profile-form input {
+                padding: 10px;
+                width: 100%;
+                border-radius: 5px;
+                border: 1px solid #ccc;
+            }
+
+            .add-profile-form button {
+                padding: 10px;
+                background-color: #4CAF50;
+                color: white;
+                border: none;
+                cursor: pointer;
+                border-radius: 5px;
+            }
+
+            .add-profile-form button:hover {
+                background-color: #45a049;
+            }
 
             .command-container {
                 flex: 1;
@@ -393,6 +489,35 @@ app.get('/', (req, res) => {
                 justify-content: center;
             }
         </style>
+        <!-- Profile Modal HTML -->
+        <div id="profileModal" class="modal">
+            <div class="modal-content">
+                <span class="close" id="closeProfileModal">&times;</span>
+                <h2>Manage Profiles</h2>
+
+                <div class="profile-list">
+                    ${profiles.map(profile => `
+                        <div class="profile-item">
+                            <span>${profile.title}</span>
+                            <div>
+                                <button class="edit-profile" data-title="${profile.title}">Edit</button>
+                                <button class="delete-profile" data-title="${profile.title}">Delete</button>
+                            </div>
+                        </div>
+                    `).join('')}
+                </div>
+
+                <form class="add-profile-form" id="addProfileForm">
+                    <h3>Add New Profile</h3>
+                    <input type="text" id="newProfileTitle" placeholder="Profile Title" required />
+                    <input type="text" id="newProfileUsername" placeholder="Username" required />
+                    <input type="password" id="newProfilePassword" placeholder="Password" required />
+                    <input type="text" id="newProfileHost" placeholder="Host" required />
+                    <input type="number" id="newProfilePort" placeholder="Port" value="22" required />
+                    <button type="submit">Add Profile</button>
+                </form>
+            </div>
+        </div>
         <!-- Quarter-circle button -->
         <div class="quarter-circle-button" id="openFormButton">
             <div class="hamburger-icon"></div>
@@ -455,6 +580,147 @@ app.get('/', (req, res) => {
         </div>
         <script src="/data/Sortable.min.js"></script>
         <script>
+
+        // Modal functionality
+        const profileModal = document.getElementById('profileModal');
+        const openProfileButton = document.getElementById('openFormButton');
+        const closeProfileModal = document.getElementById('closeProfileModal');
+
+        openProfileButton.addEventListener('click', () => {
+            profileModal.style.display = 'block';
+        });
+
+        closeProfileModal.addEventListener('click', () => {
+            profileModal.style.display = 'none';
+        });
+
+        window.onclick = (event) => {
+            if (event.target === profileModal) {
+                profileModal.style.display = 'none';
+            }
+        };
+
+        // Load profiles into the popup
+        function loadProfilesList() {
+            fetch('/profiles')
+                .then(response => response.json())
+                .then(data => {
+                    const profileList = document.getElementById('profileList');
+                    profileList.innerHTML = '';
+                    data.forEach((profile, index) => {
+                        const profileItem = document.createElement('div');
+                        profileItem.className = 'profile-item';
+                        profileItem.innerHTML = \`
+                            <strong>\${profile.title}</strong><br>
+                            Username: \${profile.username}<br>
+                            Host: \${profile.host}<br>
+                            Port: \${profile.port}<br>
+                            <button onclick="editProfile(\${index})">Edit</button>
+                            <button onclick="deleteProfile(\${index})">Delete</button>
+                        \`;
+                        profileList.appendChild(profileItem);
+                    });
+                });
+        }
+
+        // Toggle Add Profile Form
+        document.getElementById('addProfileTab').addEventListener('click', function() {
+            const form = document.getElementById('addProfileForm');
+            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
+        });
+
+        // Add New Profile
+        document.getElementById('newProfileForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const formData = new FormData(this);
+            const profileData = {
+                title: formData.get('title'),
+                username: formData.get('username'),
+                password: formData.get('password'),
+                host: formData.get('host'),
+                port: formData.get('port')
+            };
+
+            fetch('/profiles', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(profileData)
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert('Profile added successfully!');
+                loadProfilesList();
+                this.reset();
+            })
+            .catch(error => {
+                alert('An error occurred: ' + error.message);
+            });
+        });
+
+        // Delete Profile
+        function deleteProfile(index) {
+            if (confirm('Are you sure you want to delete this profile?')) {
+                fetch('/profiles/' + index, {
+                    method: 'DELETE'
+                })
+                .then(response => response.json())
+                .then(data => {
+                    alert('Profile deleted successfully!');
+                    loadProfilesList();
+                })
+                .catch(error => {
+                    alert('An error occurred: ' + error.message);
+                });
+            }
+        }
+
+        // Edit Profile
+        function editProfile(index) {
+            fetch('/profiles/' + index)
+                .then(response => response.json())
+                .then(profile => {
+                    // Populate the form with profile data
+                    document.getElementById('addProfileForm').style.display = 'block';
+                    document.querySelector('#newProfileForm [name="title"]').value = profile.title;
+                    document.querySelector('#newProfileForm [name="username"]').value = profile.username;
+                    document.querySelector('#newProfileForm [name="password"]').value = profile.password;
+                    document.querySelector('#newProfileForm [name="host"]').value = profile.host;
+                    document.querySelector('#newProfileForm [name="port"]').value = profile.port;
+
+                    // Update the form submission to edit mode
+                    document.getElementById('newProfileForm').onsubmit = function(event) {
+                        event.preventDefault();
+                        const formData = new FormData(this);
+                        const updatedProfile = {
+                            title: formData.get('title'),
+                            username: formData.get('username'),
+                            password: formData.get('password'),
+                            host: formData.get('host'),
+                            port: formData.get('port')
+                        };
+
+                        fetch('/profiles/' + index, {
+                            method: 'PUT',
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify(updatedProfile)
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            alert('Profile updated successfully!');
+                            loadProfilesList();
+                            this.reset();
+                            // Reset the form submission back to add mode
+                            document.getElementById('newProfileForm').onsubmit = addProfileSubmitHandler;
+                        })
+                        .catch(error => {
+                            alert('An error occurred: ' + error.message);
+                        });
+                    };
+                });
+        }
+
+        // Save original add profile submit handler
+        const addProfileSubmitHandler = document.getElementById('newProfileForm').onsubmit;
 
         const nav = document.querySelector('.nav')
 window.addEventListener('scroll', fixNav)
@@ -690,32 +956,51 @@ app.post('/reorder', (req, res) => {
     res.sendStatus(200);
 });
 
-// Profile management API
-app.get('/api/profiles', (req, res) => {
-    res.json(loadProfiles());
+// API endpoints for profiles
+app.get('/profiles', (req, res) => {
+    const profiles = loadProfiles();
+    res.json(profiles);
 });
 
-app.post('/api/profiles', (req, res) => {
+app.get('/profiles/:index', (req, res) => {
+    const profiles = loadProfiles();
+    const index = parseInt(req.params.index);
+    if (profiles[index]) {
+        res.json(profiles[index]);
+    } else {
+        res.status(404).json({ error: 'Profile not found' });
+    }
+});
+
+app.post('/profiles', (req, res) => {
     const profiles = loadProfiles();
     profiles.push(req.body);
-    writeProfiles(profiles);
-    res.json({ message: 'Profile added successfully' });
+    saveProfiles(profiles);
+    res.json({ success: true });
 });
 
-app.put('/api/profiles/:index', (req, res) => {
+app.put('/profiles/:index', (req, res) => {
     const profiles = loadProfiles();
-    const index = req.params.index;
-    profiles[index] = req.body;
-    writeProfiles(profiles);
-    res.json({ message: 'Profile updated successfully' });
+    const index = parseInt(req.params.index);
+    if (profiles[index]) {
+        profiles[index] = req.body;
+        saveProfiles(profiles);
+        res.json({ success: true });
+    } else {
+        res.status(404).json({ error: 'Profile not found' });
+    }
 });
 
-app.delete('/api/profiles/:index', (req, res) => {
+app.delete('/profiles/:index', (req, res) => {
     const profiles = loadProfiles();
-    const index = req.params.index;
-    profiles.splice(index, 1);
-    writeProfiles(profiles);
-    res.json({ message: 'Profile deleted successfully' });
+    const index = parseInt(req.params.index);
+    if (profiles[index]) {
+        profiles.splice(index, 1);
+        saveProfiles(profiles);
+        res.json({ success: true });
+    } else {
+        res.status(404).json({ error: 'Profile not found' });
+    }
 });
 
 app.post('/commands', (req, res) => {
