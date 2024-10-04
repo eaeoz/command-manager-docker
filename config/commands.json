@@ -1,9 +1,9 @@
 [
   {
     "lineNumber": 1,
-    "title": "asdf",
-    "command": "asdf",
-    "url": "asdf",
-    "profile": "Profile 7"
+    "title": "test",
+    "command": "hostname",
+    "url": "test",
+    "profile": "server6"
   }
 ]

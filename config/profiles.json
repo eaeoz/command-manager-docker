@@ -1,17 +1,10 @@
 [
   {
-    "title": "Profile 7",
-    "username": "user7",
-    "password": "password7",
-    "host": "192.168.10.17",
-    "port": 22
-  },
-  {
-    "title": "Profile 9",
-    "username": "user9",
-    "password": "password9",
-    "host": "192.168.10.19",
-    "port": 22
+    "title": "server6",
+    "username": "sedat",
+    "password": "987987",
+    "host": "192.168.10.2",
+    "port": "22"
   },
   {
     "title": "Profile 10",

@@ -71,6 +71,23 @@ const saveProfiles = (profiles) => {
     fs.writeFileSync(profilesFile, JSON.stringify(profiles, null, 2)); // Correctly named function
 };
 
+// Update commands based on profile name change
+function updateCommandsForProfileChange(oldTitle, newTitle) {
+    const commands = loadCommands();
+    let updated = false;
+
+    commands.forEach(command => {
+        if (command.profile === oldTitle) {
+            command.profile = newTitle; // Update the profile name
+            updated = true;
+        }
+    });
+
+    if (updated) {
+        saveCommands(commands); // Save the updated commands
+    }
+}
+
 // Routes
 app.get('/', (req, res) => {
     const commands = loadCommands();
@@ -808,6 +825,7 @@ app.get('/', (req, res) => {
                     loadProfilesList(); // Refresh the profile list
                     document.getElementById('editProfileForm').reset(); // Reset the form
                     document.getElementById('editProfileForm').style.display = 'none'; // Hide the form
+                    location.reload();
                 } else {
                     alert('Failed to update profile.');
                 }
@@ -1124,9 +1142,17 @@ app.post('/profiles', (req, res) => {
 app.put('/profiles/:index', (req, res) => {
     const profiles = loadProfiles();
     const index = parseInt(req.params.index);
+    const oldTitle = profiles[index].title; // Store the old title
+
     if (profiles[index]) {
         profiles[index] = req.body;
         saveProfiles(profiles);
+
+        // Check if the title has changed
+        if (oldTitle !== req.body.title) {
+            updateCommandsForProfileChange(oldTitle, req.body.title); // Update commands
+        }
+
         res.json({ success: true });
     } else {
         res.status(404).json({ error: 'Profile not found' });
