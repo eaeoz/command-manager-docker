@@ -623,104 +623,11 @@ app.get('/', (req, res) => {
                 });
         }
 
-        // Toggle Add Profile Form
-        document.getElementById('addProfileTab').addEventListener('click', function() {
-            const form = document.getElementById('addProfileForm');
-            form.style.display = form.style.display === 'none' || form.style.display === '' ? 'block' : 'none';
-        });
 
-        // Add New Profile
-        document.getElementById('newProfileForm').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const formData = new FormData(this);
-            const profileData = {
-                title: formData.get('title'),
-                username: formData.get('username'),
-                password: formData.get('password'),
-                host: formData.get('host'),
-                port: formData.get('port')
-            };
 
-            fetch('/profiles', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(profileData)
-            })
-            .then(response => response.json())
-            .then(data => {
-                alert('Profile added successfully!');
-                loadProfilesList();
-                this.reset();
-            })
-            .catch(error => {
-                alert('An error occurred: ' + error.message);
-            });
-        });
+        
 
-        // Delete Profile
-        function deleteProfile(index) {
-            if (confirm('Are you sure you want to delete this profile?')) {
-                fetch('/profiles/' + index, {
-                    method: 'DELETE'
-                })
-                .then(response => response.json())
-                .then(data => {
-                    alert('Profile deleted successfully!');
-                    loadProfilesList();
-                })
-                .catch(error => {
-                    alert('An error occurred: ' + error.message);
-                });
-            }
-        }
 
-        // Edit Profile
-        function editProfile(index) {
-            fetch('/profiles/' + index)
-                .then(response => response.json())
-                .then(profile => {
-                    // Populate the form with profile data
-                    document.getElementById('addProfileForm').style.display = 'block';
-                    document.querySelector('#newProfileForm [name="title"]').value = profile.title;
-                    document.querySelector('#newProfileForm [name="username"]').value = profile.username;
-                    document.querySelector('#newProfileForm [name="password"]').value = profile.password;
-                    document.querySelector('#newProfileForm [name="host"]').value = profile.host;
-                    document.querySelector('#newProfileForm [name="port"]').value = profile.port;
-
-                    // Update the form submission to edit mode
-                    document.getElementById('newProfileForm').onsubmit = function(event) {
-                        event.preventDefault();
-                        const formData = new FormData(this);
-                        const updatedProfile = {
-                            title: formData.get('title'),
-                            username: formData.get('username'),
-                            password: formData.get('password'),
-                            host: formData.get('host'),
-                            port: formData.get('port')
-                        };
-
-                        fetch('/profiles/' + index, {
-                            method: 'PUT',
-                            headers: { 'Content-Type': 'application/json' },
-                            body: JSON.stringify(updatedProfile)
-                        })
-                        .then(response => response.json())
-                        .then(data => {
-                            alert('Profile updated successfully!');
-                            loadProfilesList();
-                            this.reset();
-                            // Reset the form submission back to add mode
-                            document.getElementById('newProfileForm').onsubmit = addProfileSubmitHandler;
-                        })
-                        .catch(error => {
-                            alert('An error occurred: ' + error.message);
-                        });
-                    };
-                });
-        }
-
-        // Save original add profile submit handler
-        const addProfileSubmitHandler = document.getElementById('newProfileForm').onsubmit;
 
         const nav = document.querySelector('.nav')
 window.addEventListener('scroll', fixNav)
