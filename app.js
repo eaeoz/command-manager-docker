@@ -164,6 +164,8 @@ app.get('/', (req, res) => {
                 width: 80%;
                 max-width: 600px;
                 border-radius: 10px;
+                max-height: 80vh;
+                overflow-y: auto; 
             }
 
             .close {
@@ -185,14 +187,22 @@ app.get('/', (req, res) => {
                 display: flex;
                 flex-direction: column;
                 gap: 10px;
+                padding: 10px;
+            }
+
+            .profile-list-container {
+                max-height: 400px; /* Set the desired maximum height of the profile list */
+                overflow-y: auto; /* Add vertical scrollbar if the list exceeds the height */
             }
 
             .profile-item {
                 display: flex;
-                justify-content: space-between;
+                justify-content: space-evenly;
                 padding: 10px;
                 background-color: #ddd;
                 border-radius: 5px;
+                margin-bottom: 10px;
+                background-color: #f1f1f1;
             }
 
             .profile-item button {
@@ -202,10 +212,20 @@ app.get('/', (req, res) => {
                 cursor: pointer;
                 padding: 5px;
                 border-radius: 3px;
+                width: 100px;
             }
 
             .profile-item button:hover {
                 background-color: #d32f2f;
+            }
+
+            .profile-item button:active {
+                transform: scale(0.95);
+            }
+
+            .profile-item button.edit-profile {
+                background-color: #2196F3;
+                
             }
 
             .add-profile-form {
@@ -318,6 +338,38 @@ app.get('/', (req, res) => {
             .command-actions button:hover {
                 opacity: 0.8;
             }
+
+            /* Tabs */
+.tab {
+    overflow: hidden;
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+.tab button {
+    background-color: inherit;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
+}
+
 
             .gear-icon, .url-icon {
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
@@ -489,24 +541,19 @@ app.get('/', (req, res) => {
                 justify-content: center;
             }
         </style>
-        <!-- Profile Modal HTML -->
         <div id="profileModal" class="modal">
-            <div class="modal-content">
-                <span class="close" id="closeProfileModal">&times;</span>
-                <h2>Manage Profiles</h2>
-
-                <div class="profile-list">
-                    ${profiles.map(profile => `
-                        <div class="profile-item">
-                            <span>${profile.title}</span>
-                            <div>
-                                <button class="edit-profile" data-title="${profile.title}">Edit</button>
-                                <button class="delete-profile" data-title="${profile.title}">Delete</button>
-                            </div>
-                        </div>
-                    `).join('')}
-                </div>
-
+        <div class="modal-content">
+            <span class="close" id="closeProfileModal">&times;</span>
+            <h2>Manage Profiles</h2>
+            
+            <!-- Tabs -->
+            <div class="tab">
+                <button class="tablinks" onclick="openTab(event, 'AddProfile')">Add Profile</button>
+                <button class="tablinks" onclick="openTab(event, 'EditProfile')">Edit Profile</button>
+            </div>
+    
+            <!-- Tab content -->
+            <div id="AddProfile" class="tabcontent">
                 <form class="add-profile-form" id="addProfileForm">
                     <h3>Add New Profile</h3>
                     <input type="text" id="newProfileTitle" placeholder="Profile Title" required />
@@ -517,7 +564,26 @@ app.get('/', (req, res) => {
                     <button type="submit">Add Profile</button>
                 </form>
             </div>
+    
+            <div id="EditProfile" class="tabcontent" style="display:none;">
+            <h3>Edit Profile</h3>
+            <form class="edit-profile-form" id="editProfileForm" style="display:none;">
+                <input type="text" id="editProfileTitle" placeholder="Profile Title" required />
+                <input type="text" id="editProfileUsername" placeholder="Username" required />
+                <input type="password" id="editProfilePassword" placeholder="Password" required />
+                <input type="text" id="editProfileHost" placeholder="Host" required />
+                <input type="number" id="editProfilePort" placeholder="Port" value="22" required />
+                <button type="submit">Update Profile</button>
+            </form>
+                <div class="profile-list-container">
+                    <div class="profile-list">
+                        <!-- Profiles will be dynamically added here -->
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+    
         <!-- Quarter-circle button -->
         <div class="quarter-circle-button" id="openFormButton">
             <div class="hamburger-icon"></div>
@@ -580,54 +646,210 @@ app.get('/', (req, res) => {
         </div>
         <script src="/data/Sortable.min.js"></script>
         <script>
-
+        document.getElementById('addProfileForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+        
+            // Gather input values
+            const newProfile = {
+                title: document.getElementById('newProfileTitle').value,
+                username: document.getElementById('newProfileUsername').value,
+                password: document.getElementById('newProfilePassword').value,
+                host: document.getElementById('newProfileHost').value,
+                port: document.getElementById('newProfilePort').value
+            };
+        
+            // Send a POST request to add the new profile
+            fetch('/profiles', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newProfile)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Profile added successfully!');
+                    loadProfilesList(); // Refresh the profile list
+                    document.getElementById('addProfileForm').reset(); // Reset the form
+                } else {
+                    alert('Failed to add profile.');
+                }
+            })
+            .catch(error => {
+                console.error('Error adding profile:', error);
+                alert('An error occurred while adding the profile.');
+            });
+        });
+        
+        function openTab(evt, tabName) {
+            // Declare all variables
+            var i, tabcontent, tablinks;
+        
+            // Get all elements with class="tabcontent" and hide them
+            tabcontent = document.getElementsByClassName("tabcontent");
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+        
+            // Get all elements with class="tablinks" and remove the class "active"
+            tablinks = document.getElementsByClassName("tablinks");
+            for (i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+        
+            // Show the current tab, and add an "active" class to the button that opened the tab
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+        }
+        
+        // Set default tab
+        document.addEventListener('DOMContentLoaded', function() {
+            document.querySelector('.tab button:first-child').click();
+        });
+        
         // Modal functionality
         const profileModal = document.getElementById('profileModal');
         const openProfileButton = document.getElementById('openFormButton');
         const closeProfileModal = document.getElementById('closeProfileModal');
-
+        
+        // Open the modal and load profiles
         openProfileButton.addEventListener('click', () => {
+            loadProfilesList(); // Load profiles when opening the modal
             profileModal.style.display = 'block';
         });
-
+        
+        // Close the modal
         closeProfileModal.addEventListener('click', () => {
             profileModal.style.display = 'none';
         });
-
+        
+        // Close the modal when clicking outside of it
         window.onclick = (event) => {
             if (event.target === profileModal) {
                 profileModal.style.display = 'none';
             }
         };
-
-        // Load profiles into the popup
+        
+        // Function to load profiles and display them
         function loadProfilesList() {
             fetch('/profiles')
                 .then(response => response.json())
                 .then(data => {
-                    const profileList = document.getElementById('profileList');
+                    const profileList = document.querySelector('.profile-list');
                     profileList.innerHTML = '';
                     data.forEach((profile, index) => {
                         const profileItem = document.createElement('div');
                         profileItem.className = 'profile-item';
                         profileItem.innerHTML = \`
-                            <strong>\${profile.title}</strong><br>
-                            Username: \${profile.username}<br>
-                            Host: \${profile.host}<br>
-                            Port: \${profile.port}<br>
-                            <button onclick="editProfile(\${index})">Edit</button>
-                            <button onclick="deleteProfile(\${index})">Delete</button>
+                            <span>\${profile.title}</span>
+                            <div>
+                                <button class="edit-profile" data-index="\${index}" onclick="editProfile(\${index})">Edit</button>
+                                <button class="delete-profile" data-title="\${profile.title}" onclick="deleteProfile('\${profile.title}')">Delete</button>
+                            </div>
                         \`;
                         profileList.appendChild(profileItem);
                     });
+                })
+                .catch(error => {
+                    console.error('Error loading profiles:', error);
                 });
         }
-
+        
+        // Function to fetch and display the profile data in the edit form
+        function editProfile(index) {
+            fetch(\`/profiles/\${index}\`)
+                .then(response => response.json())
+                .then(profile => {
+                    document.getElementById('editProfileTitle').value = profile.title;
+                    document.getElementById('editProfileUsername').value = profile.username;
+                    document.getElementById('editProfilePassword').value = profile.password;
+                    document.getElementById('editProfileHost').value = profile.host;
+                    document.getElementById('editProfilePort').value = profile.port;
+        
+                    // Show the edit form
+                    document.getElementById('editProfileForm').style.display = 'block';
+                })
+                .catch(error => {
+                    console.error('Error fetching profile:', error);
+                });
+        }
+        
+        // Handle the edit profile form submission
+        document.getElementById('editProfileForm').addEventListener('submit', function(event) {
+            event.preventDefault(); // Prevent the default form submission
+        
+            const index = document.querySelector('.edit-profile').getAttribute('data-index'); // Get the index from the button
+            const updatedProfile = {
+                title: document.getElementById('editProfileTitle').value,
+                username: document.getElementById('editProfileUsername').value,
+                password: document.getElementById('editProfilePassword').value,
+                host: document.getElementById('editProfileHost').value,
+                port: document.getElementById('editProfilePort').value
+            };
+        
+            // Send a PUT request to update the profile
+            fetch(\`/profiles/\${index}\`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedProfile)
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('Profile updated successfully!');
+                    loadProfilesList(); // Refresh the profile list
+                    document.getElementById('editProfileForm').reset(); // Reset the form
+                    document.getElementById('editProfileForm').style.display = 'none'; // Hide the form
+                } else {
+                    alert('Failed to update profile.');
+                }
+            })
+            .catch(error => {
+                console.error('Error updating profile:', error);
+                alert('An error occurred while updating the profile.');
+            });
+        });
+        
+        
+        
+        // Function to delete a profile
+        function deleteProfile(title) {
+            const confirmation = confirm(\`Are you sure you want to delete the profile "\${title}"?\`);
+            if (!confirmation) {
+                return; // If the user cancels, exit the function
+            }
+        
+            fetch(\`/profiles/\${encodeURIComponent(title)}\`, {
+                method: 'DELETE',
+            })
+            .then(response => {
+                if (!response.ok) {
+                    return response.json().then(err => {
+                        throw new Error(err.error || 'Error deleting profile, please try again.');
+                    });
+                }
+                return response.json();
+            })
+            .then(data => {
+                alert(\`Profile "\${title}" deleted successfully.\`);
+                loadProfilesList(); // Refresh the list in the modal
+            })
+            .catch(error => {
+                alert(error.message); // Show the error
+            });
+        }
+        
+        
 
 
         
 
 
+
+        
 
         const nav = document.querySelector('.nav')
 window.addEventListener('scroll', fixNav)
@@ -865,10 +1087,16 @@ app.post('/reorder', (req, res) => {
 
 // API endpoints for profiles
 app.get('/profiles', (req, res) => {
-    const profiles = loadProfiles();
-    res.json(profiles);
+    try {
+        const profiles = loadProfiles(); // Load profiles from the file
+        res.json(profiles); // Send the profiles as a JSON response
+    } catch (error) {
+        console.error('Error loading profiles:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
 });
 
+// Get single profile
 app.get('/profiles/:index', (req, res) => {
     const profiles = loadProfiles();
     const index = parseInt(req.params.index);
@@ -879,6 +1107,7 @@ app.get('/profiles/:index', (req, res) => {
     }
 });
 
+// Route to add a new profile
 app.post('/profiles', (req, res) => {
     const profiles = loadProfiles();
     profiles.push(req.body);
@@ -886,6 +1115,7 @@ app.post('/profiles', (req, res) => {
     res.json({ success: true });
 });
 
+// Edit single profile
 app.put('/profiles/:index', (req, res) => {
     const profiles = loadProfiles();
     const index = parseInt(req.params.index);
@@ -898,15 +1128,22 @@ app.put('/profiles/:index', (req, res) => {
     }
 });
 
-app.delete('/profiles/:index', (req, res) => {
+app.delete('/profiles/:title', (req, res) => {
     const profiles = loadProfiles();
-    const index = parseInt(req.params.index);
-    if (profiles[index]) {
-        profiles.splice(index, 1);
-        saveProfiles(profiles);
-        res.json({ success: true });
+    const title = req.params.title;
+
+    console.log(`Trying to delete profile: ${title}`); // Log the title being deleted
+
+    const index = profiles.findIndex(profile => profile.title === title);
+
+    if (index !== -1) {
+        profiles.splice(index, 1); // Remove the profile
+        saveProfiles(profiles); // Save updated profiles
+        console.log('Profile deleted successfully'); // Log success
+        return res.json({ success: true });
     } else {
-        res.status(404).json({ error: 'Profile not found' });
+        console.error('Profile not found'); // Log not found
+        return res.status(404).json({ error: 'Profile not found' });
     }
 });
 
