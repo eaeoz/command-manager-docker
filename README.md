@@ -22,27 +22,6 @@ services:
 - Access from url:
   `http://<your-host-ip>:3000`
 
-##### config/profiles.json example ( you have to edit manually with sudo permissions using correct values for your servers )
-
-```
-[
-    {
-        "title": "Profile 1",
-        "username": "user1",
-        "password": "password1",
-        "host": "192.168.10.1",
-        "port": 22
-    },
-    {
-        "title": "Profile 2",
-        "username": "user2",
-        "password": "password2",
-        "host": "192.168.10.2",
-        "port": 22
-    }
-]
-```
-
 - You can change setting using config/.env file (this hidden file includes, port, timeout, and custom env file paths), then restart container for this
 
 ---
