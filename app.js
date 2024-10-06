@@ -817,7 +817,7 @@ app.get('/', (req, res) => {
             event.preventDefault(); // Prevent the default form submission
         
             const index = document.getElementById('editProfileIndex').value; // Get the index from the hidden input
-            console.log(\`Editing profile (attribute): \${index}\`);
+            console.log(\`Edited Profile: \${index}\`);
             const updatedProfile = {
                 title: document.getElementById('editProfileTitle').value,
                 username: document.getElementById('editProfileUsername').value,
@@ -836,12 +836,13 @@ app.get('/', (req, res) => {
             })
             .then(response => response.json())
             .then(data => {
-                console.log('Update response:', data); // Log the response
+                // console.log('Update response:', data); // Log the response
                 if (data.success) {
                     alert('Profile updated successfully!');
                     loadProfilesList(); // Refresh the profile list
                     this.reset(); // Reset the form fields
                     this.style.display = 'none'; // Hide the form
+                    location.reload();
                 } else {
                     alert('Failed to update profile.');
                 }
