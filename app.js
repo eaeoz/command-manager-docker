@@ -806,7 +806,6 @@ app.get('/', (req, res) => {
                 });
         }
         
-        // Handle the edit profile form submission
         document.getElementById('editProfileForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
         
@@ -829,12 +828,12 @@ app.get('/', (req, res) => {
             })
             .then(response => response.json())
             .then(data => {
+                console.log('Update response:', data); // Log the response
                 if (data.success) {
                     alert('Profile updated successfully!');
                     loadProfilesList(); // Refresh the profile list
-                    document.getElementById('editProfileForm').reset(); // Reset the form
-                    document.getElementById('editProfileForm').style.display = 'none'; // Hide the form
-                    location.reload();
+                    this.reset(); // Reset the form fields
+                    this.style.display = 'none'; // Hide the form
                 } else {
                     alert('Failed to update profile.');
                 }
@@ -844,6 +843,7 @@ app.get('/', (req, res) => {
                 alert('An error occurred while updating the profile.');
             });
         });
+        
         
         
         
