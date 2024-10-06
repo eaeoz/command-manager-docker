@@ -702,6 +702,7 @@ app.get('/', (req, res) => {
                     alert('Profile added successfully!');
                     loadProfilesList(); // Refresh the profile list
                     document.getElementById('addProfileForm').reset(); // Reset the form
+                    location.reload();
                 } else {
                     alert('Failed to add profile.');
                 }
@@ -867,6 +868,7 @@ app.get('/', (req, res) => {
             .then(data => {
                 alert(\`Profile "\${title}" deleted successfully.\`);
                 loadProfilesList(); // Refresh the list in the modal
+                location.reload();
             })
             .catch(error => {
                 alert(error.message); // Show the error
@@ -1232,7 +1234,7 @@ app.post('/edit', (req, res) => {
     const { oldTitle, newTitle, newCommand, newUrl, newProfile } = req.body;
 
     // Load the current commands from commands.json
-    fs.readFile('commands.json', 'utf8', (err, data) => {
+    fs.readFile(commandsFile, 'utf8', (err, data) => {
         if (err) {
             return res.status(500).json({ error: 'Failed to read commands file' });
         }
@@ -1251,7 +1253,7 @@ app.post('/edit', (req, res) => {
             };
 
             // Save the updated commands back to the file
-            fs.writeFile('commands.json', JSON.stringify(commands, null, 2), err => {
+            fs.writeFile(commandsFile, JSON.stringify(commands, null, 2), err => {
                 if (err) {
                     return res.status(500).json({ error: 'Failed to save commands file' });
                 }
