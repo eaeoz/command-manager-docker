@@ -75,8 +75,9 @@ const saveProfiles = (profiles) => {
 function updateCommandsForProfileChange(oldTitle, newTitle) {
     const commands = loadCommands();
     let updated = false;
-
+    console.log(`Updating commands for profile change: ${oldTitle} -> ${newTitle}`);
     commands.forEach(command => {
+        console.log(`Updating command: ${command.title}`);
         if (command.profile === oldTitle) {
             command.profile = newTitle; // Update the profile name
             updated = true;
@@ -598,6 +599,7 @@ app.get('/', (req, res) => {
             <div id="EditProfile" class="tabcontent" style="display:none;">
             <h3>Edit Profile</h3>
             <form class="edit-profile-form" id="editProfileForm" style="display:none;">
+                <input type="hidden" id="editProfileIndex">
                 <input type="text" id="editProfileTitle" placeholder="Profile Title" required />
                 <input type="text" id="editProfileUsername" placeholder="Username" required />
                 <input type="password" id="editProfilePassword" placeholder="Password" required />
@@ -775,7 +777,7 @@ app.get('/', (req, res) => {
                         profileItem.innerHTML = \`
                             <span>\${profile.title}</span>
                             <div>
-                                <button class="edit-profile" data-index="\${index}" onclick="editProfile(\${index})">Edit</button>
+                            <button class="edit-profile" data-index="\${index}" onclick="editProfile(this)">Edit</button>
                                 <button class="delete-profile" data-title="\${profile.title}" onclick="deleteProfile('\${profile.title}')">Delete</button>
                             </div>
                         \`;
@@ -787,8 +789,10 @@ app.get('/', (req, res) => {
                 });
         }
         
-        // Function to fetch and display the profile data in the edit form
-        function editProfile(index) {
+        // Updated editProfile function to accept the button element
+        function editProfile(button) {
+            const index = button.getAttribute('data-index');
+            console.log(\`Editing profile: \${index}\`);
             fetch(\`/profiles/\${index}\`)
                 .then(response => response.json())
                 .then(profile => {
@@ -798,6 +802,9 @@ app.get('/', (req, res) => {
                     document.getElementById('editProfileHost').value = profile.host;
                     document.getElementById('editProfilePort').value = profile.port;
         
+                    // Store the index in the hidden field
+                    document.getElementById('editProfileIndex').value = index;
+
                     // Show the edit form
                     document.getElementById('editProfileForm').style.display = 'block';
                 })
@@ -809,7 +816,8 @@ app.get('/', (req, res) => {
         document.getElementById('editProfileForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
         
-            const index = document.querySelector('.edit-profile').getAttribute('data-index'); // Get the index from the button
+            const index = document.getElementById('editProfileIndex').value; // Get the index from the hidden input
+            console.log(\`Editing profile (attribute): \${index}\`);
             const updatedProfile = {
                 title: document.getElementById('editProfileTitle').value,
                 username: document.getElementById('editProfileUsername').value,
