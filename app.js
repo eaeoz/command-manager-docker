@@ -97,10 +97,6 @@ app.get('/', (req, res) => {
         <style>
             body {
                 font-family: Arial, sans-serif;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
                 height: 100vh;
                 margin: 0;
                 background-color: #000000;
@@ -571,7 +567,124 @@ app.get('/', (req, res) => {
                 align-items: center;
                 justify-content: center;
             }
+
+            .containerx {
+                position: relative;
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                overflow-x: hidden;
+                transition: all 0.3s ease-in-out;
+                transform-origin: top left;
+                transition: transform 0.5s linear;
+ 
+            }
+
+            .containerx.show-nav {
+                transform: rotate(-20deg);
+              }
+
+            .circle-container {
+                position: fixed;
+                top: -100px;
+                left: -100px;
+              }
+              
+              .circle {
+                background-color: #F44336;
+                height: 140px;
+                width: 170px;
+                border-radius: 50%;
+                position: relative;
+                transition: transform 0.5s linear;
+              }
+              
+              .containerx.show-nav .circle {
+                transform: rotate(-90deg);
+              }
+              
+              .circle button {
+                cursor: pointer;
+                position: absolute;
+                top: 50%;
+                left: 50%;
+                height: 100px;
+                background: transparent;
+                border: 0;
+                font-size: 22px;
+                color: #fff;
+              }
+              
+              .circle button:focus{
+                outline: none;
+              }
+              
+              .circle button#open {
+                left: 60%;
+              }
+              
+              .circle button#close {
+                top: 60%;
+                transform: rotate(90deg);
+                transform-origin: top left;
+              }
+
+              .containerx.show-nav + navx li {
+                transform: translateX(0);
+                transition-delay: 0.3s;
+              }
+
+              navx {
+                position: fixed;
+                bottom: 40px;
+                left: 0;
+                z-index: 100;
+              }
+              
+              navx ul {
+                list-style-type: none;
+                padding-left: 30px;
+              }
+              
+              navx ul li {
+                text-transform: uppercase;
+                color: #fff;
+                margin: 40px 0;
+                transform: translateX(-100%);
+                transition: transform 0.4s ease-in;
+              }
+              
+              navx ul li i {
+                font-size: 20px;
+                margin-right: 10px;
+              }
+              
+              navx ul li + li {
+                margin-left: 15px;
+                transform: translateX(-150%);
+              }
+              
+              navx ul li + li + li {
+                margin-left: 30px;
+                transform: translateX(-200px);
+              }
+              
+              navx a{
+                color: #fafafa;
+                text-decoration: none;
+                transition: all 0.5s;
+              }
+              
+              navx a:hover {
+                color: #ff7979;
+                font-weight: bold;
+              }
         </style>
+        <link rel="stylesheet" type="text/css" href="/data/css/all.min.css">
+        <div class="containerx">
         <div id="profileModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeProfileModal">&times;</span>
@@ -615,6 +728,16 @@ app.get('/', (req, res) => {
             </div>
         </div>
     </div>
+    <div class="circle-container">
+    <div class="circle">
+      <button id="close">
+        <i class="fas fa-times"></i>
+      </button>
+      <button id="open">
+        <i class="fas fa-bars"></i>
+      </button>
+    </div>
+  </div>
     
         <!-- Quarter-circle button -->
         <div class="quarter-circle-button" id="openFormButton">
@@ -676,8 +799,28 @@ app.get('/', (req, res) => {
             <button type="submit">Add Command</button>
         </form>
         </div>
-        <script src="/data/Sortable.min.js"></script>
+        </div>
+        <navx>
+        <ul>
+          <li><i class="fas fa-home"></i>Home</li>
+          <li><i class="fas fa-user-alt"></i>About</li>
+          <li><i class="fas fa-envelope"></i>Contact</li>
+        </ul>
+      </navx>
+        <script src="/data/js/all.min.js"></script>
+        <script src="/data/js/Sortable.min.js"></script>
         <script>
+        const open = document.querySelector("#open")
+const close = document.querySelector("#close");
+const container = document.querySelector(".containerx");
+
+open.addEventListener('click', ()=>{
+    container.classList.add("show-nav");
+})
+
+close.addEventListener('click', ()=>{
+    container.classList.remove("show-nav")
+})
         document.getElementById('addProfileForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
         
