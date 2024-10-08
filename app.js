@@ -102,7 +102,7 @@ app.get('/', (req, res) => {
                 background-color: #000000;
             }
 
-            h1 {
+            h2 {
                 text-shadow: 4px 4px 4px rgba(255,255,255, 0.5);
                 color: white;
                 margin-bottom: 10px;
@@ -302,7 +302,8 @@ app.get('/', (req, res) => {
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
                 transform: scale(0.9) translateY(2px);
                 border-radius: 50px 50px;
-                background-color: #4CAF50;
+                background: radial-gradient(ellipse at top, #e66465, transparent),
+                radial-gradient(ellipse at bottom, #9198e5, transparent);
                 color: white;
                 border: none;
                 width: 100%;
@@ -745,7 +746,7 @@ app.get('/', (req, res) => {
         </div>
         <div class="nav">
         <div class="container">
-            <h1>Command Manager</h1>
+            <h2>Command Manager</h2>
             <div id="output"></div>
             <div class="loading-text">0%</div>
         </div>
@@ -804,7 +805,7 @@ app.get('/', (req, res) => {
         <ul>
         
           <li><a href="https://github.com/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-github"></i> Github</a></li>
-          <li><a href="https://hub.docker.com/repository/docker/eaeoz/command-manager-docker/general" target="_blank"><i class="fa-brands fa-docker"></i> Docker</a></li>
+          <li><a href="https://hub.docker.com/repository/docker/eaeoz/command-manager-docker/general" target="_blank"><i class="fa-brands fa-docker"></i> DockerHub</a></li>
           <li><a href="mailto:sedatergoz@gmail.com" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
       </navx>
@@ -1237,7 +1238,7 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                 outputDiv.style.display = 'none';
 
                 // Create a new error message element
-                const errorMessage = document.createElement('h1');
+                const errorMessage = document.createElement('h2');
                 errorMessage.textContent = message;
                 errorMessage.style.color = 'red'; // Style the error message
                 errorMessage.style.textAlign = 'center'; // Center align the message
