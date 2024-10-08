@@ -114,9 +114,9 @@ app.get('/', (req, res) => {
                 position: fixed;
                 top: 0;
                 right: 0;
-                width: 80px;
-                height: 80px;
-                background-color: #333;
+                width: 60px;
+                height: 46px;
+                background-color: #F44336;
                 border-radius: 0 0 0 80px;
                 cursor: pointer;
                 display: flex;
@@ -127,7 +127,7 @@ app.get('/', (req, res) => {
     
             /* Hamburger icon */
             .hamburger-icon {
-                width: 30px;
+                width: 25px;
                 height: 3px;
                 background-color: white;
                 position: relative;
@@ -141,7 +141,7 @@ app.get('/', (req, res) => {
             .hamburger-icon::before,
             .hamburger-icon::after {
                 content: "";
-                width: 30px;
+                width: 25px;
                 height: 3px;
                 background-color: white;
                 position: absolute;
@@ -595,8 +595,8 @@ app.get('/', (req, res) => {
               
               .circle {
                 background-color: #F44336;
-                height: 140px;
-                width: 170px;
+                height: 155px;
+                width: 165px;
                 border-radius: 50%;
                 position: relative;
                 transition: transform 0.5s linear;
@@ -609,7 +609,7 @@ app.get('/', (req, res) => {
               .circle button {
                 cursor: pointer;
                 position: absolute;
-                top: 50%;
+                top: 47%;
                 left: 50%;
                 height: 100px;
                 background: transparent;
@@ -734,7 +734,7 @@ app.get('/', (req, res) => {
         <i class="fas fa-times"></i>
       </button>
       <button id="open">
-        <i class="fas fa-bars"></i>
+        <i class="fa-solid fa-paper-plane"></i>
       </button>
     </div>
   </div>
@@ -802,9 +802,10 @@ app.get('/', (req, res) => {
         </div>
         <navx>
         <ul>
-          <li><i class="fas fa-home"></i>Home</li>
-          <li><i class="fas fa-user-alt"></i>About</li>
-          <li><i class="fas fa-envelope"></i>Contact</li>
+        
+          <li><a href="https://github.com/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-github"></i> Github</a></li>
+          <li><a href="https://hub.docker.com/repository/docker/eaeoz/command-manager-docker/general" target="_blank"><i class="fa-brands fa-docker"></i> Docker</a></li>
+          <li><a href="mailto:sedatergoz@gmail.com" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
       </navx>
         <script src="/data/js/all.min.js"></script>
