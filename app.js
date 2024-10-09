@@ -97,16 +97,12 @@ app.get('/', (req, res) => {
         <style>
             body {
                 font-family: Arial, sans-serif;
-                display: flex;
-                flex-direction: column;
-                align-items: center;
-                justify-content: center;
                 height: 100vh;
                 margin: 0;
                 background-color: #000000;
             }
 
-            h1 {
+            h2 {
                 text-shadow: 4px 4px 4px rgba(255,255,255, 0.5);
                 color: white;
                 margin-bottom: 10px;
@@ -118,9 +114,9 @@ app.get('/', (req, res) => {
                 position: fixed;
                 top: 0;
                 right: 0;
-                width: 80px;
-                height: 80px;
-                background-color: #333;
+                width: 60px;
+                height: 46px;
+                background-color: #F44336;
                 border-radius: 0 0 0 80px;
                 cursor: pointer;
                 display: flex;
@@ -131,7 +127,7 @@ app.get('/', (req, res) => {
     
             /* Hamburger icon */
             .hamburger-icon {
-                width: 30px;
+                width: 25px;
                 height: 3px;
                 background-color: white;
                 position: relative;
@@ -145,7 +141,7 @@ app.get('/', (req, res) => {
             .hamburger-icon::before,
             .hamburger-icon::after {
                 content: "";
-                width: 30px;
+                width: 25px;
                 height: 3px;
                 background-color: white;
                 position: absolute;
@@ -306,7 +302,8 @@ app.get('/', (req, res) => {
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
                 transform: scale(0.9) translateY(2px);
                 border-radius: 50px 50px;
-                background-color: #4CAF50;
+                background: radial-gradient(ellipse at top, #e66465, transparent),
+                radial-gradient(ellipse at bottom, #9198e5, transparent);
                 color: white;
                 border: none;
                 width: 100%;
@@ -571,7 +568,131 @@ app.get('/', (req, res) => {
                 align-items: center;
                 justify-content: center;
             }
+
+            .containerx {
+                position: relative;
+                width: 100%;
+                height: 100vh;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                overflow-x: hidden;
+                transition: all 0.3s ease-in-out;
+                transform-origin: top left;
+                transition: transform 0.5s linear;
+ 
+            }
+
+            .containerx.show-nav {
+                transform: rotate(-20deg);
+              }
+
+            .circle-container {
+                position: fixed;
+                top: -100px;
+                left: -100px;
+              }
+              
+              .circle {
+                background-color: #F44336;
+                height: 155px;
+                width: 165px;
+                border-radius: 50%;
+                position: relative;
+                transition: transform 0.5s linear;
+              }
+              
+              .containerx.show-nav .circle {
+                transform: rotate(-90deg);
+              }
+              
+              .circle button {
+                cursor: pointer;
+                position: absolute;
+                top: 47%;
+                left: 50%;
+                height: 100px;
+                background: transparent;
+                border: 0;
+                font-size: 22px;
+                color: #fff;
+              }
+              
+              .circle button:focus{
+                outline: none;
+              }
+              
+              .circle button#open {
+                left: 60%;
+              }
+              
+              .circle button#close {
+                top: 60%;
+                transform: rotate(90deg);
+                transform-origin: top left;
+              }
+
+              .containerx.show-nav + navx li {
+                transform: translateX(0);
+                transition-delay: 0.3s;
+              }
+
+              navx {
+                position: fixed;
+                bottom: 40px;
+                left: 0;
+                z-index: 100;
+              }
+              
+              navx ul {
+                list-style-type: none;
+                padding-left: 30px;
+              }
+              
+              navx ul li {
+                text-transform: uppercase;
+                color: #fff;
+                margin: 40px 0;
+                transform: translateX(-100%);
+                transition: transform 0.4s ease-in;
+                cursor: pointer; /* Changes the mouse pointer to a hand when hovering */
+                list-style: none; /* Optional: removes bullet points */
+                padding: 10px; /* Optional: adds padding for better click area */
+              }
+
+              navx ul li:hover {
+                background-color: #8B0000; /* Optional: adds a hover effect */
+              }
+              
+              navx ul li i {
+                font-size: 20px;
+                margin-right: 10px;
+              }
+              
+              navx ul li + li {
+                margin-left: 15px;
+                transform: translateX(-150%);
+              }
+              
+              navx ul li + li + li {
+                margin-left: 30px;
+                transform: translateX(-200px);
+              }
+              
+              navx a{
+                color: #fafafa;
+                text-decoration: none;
+                transition: all 0.5s;
+              }
+              
+              navx a:hover {
+                color: #ff7979;
+                font-weight: bold;
+              }
         </style>
+        <link rel="stylesheet" type="text/css" href="/data/css/all.min.css">
+        <div class="containerx">
         <div id="profileModal" class="modal">
         <div class="modal-content">
             <span class="close" id="closeProfileModal">&times;</span>
@@ -615,6 +736,16 @@ app.get('/', (req, res) => {
             </div>
         </div>
     </div>
+    <div class="circle-container">
+    <div class="circle">
+      <button id="close">
+        <i class="fas fa-times"></i>
+      </button>
+      <button id="open">
+        <i class="fa-solid fa-paper-plane"></i>
+      </button>
+    </div>
+  </div>
     
         <!-- Quarter-circle button -->
         <div class="quarter-circle-button" id="openFormButton">
@@ -622,7 +753,7 @@ app.get('/', (req, res) => {
         </div>
         <div class="nav">
         <div class="container">
-            <h1>Command Manager</h1>
+            <h2>Command Manager</h2>
             <div id="output"></div>
             <div class="loading-text">0%</div>
         </div>
@@ -676,8 +807,29 @@ app.get('/', (req, res) => {
             <button type="submit">Add Command</button>
         </form>
         </div>
-        <script src="/data/Sortable.min.js"></script>
+        </div>
+        <navx>
+        <ul>
+        
+          <li><a href="https://github.com/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-github"></i> Github</a></li>
+          <li><a href="https://hub.docker.com/r/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-docker"></i> DockerHub</a></li>
+          <li><a href="mailto:sedatergoz@gmail.com" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
+        </ul>
+      </navx>
+        <script src="/data/js/all.min.js"></script>
+        <script src="/data/js/Sortable.min.js"></script>
         <script>
+        const open = document.querySelector("#open")
+const close = document.querySelector("#close");
+const container = document.querySelector(".containerx");
+
+open.addEventListener('click', ()=>{
+    container.classList.add("show-nav");
+})
+
+close.addEventListener('click', ()=>{
+    container.classList.remove("show-nav")
+})
         document.getElementById('addProfileForm').addEventListener('submit', function(event) {
             event.preventDefault(); // Prevent the default form submission
         
@@ -1093,7 +1245,7 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                 outputDiv.style.display = 'none';
 
                 // Create a new error message element
-                const errorMessage = document.createElement('h1');
+                const errorMessage = document.createElement('h2');
                 errorMessage.textContent = message;
                 errorMessage.style.color = 'red'; // Style the error message
                 errorMessage.style.textAlign = 'center'; // Center align the message
