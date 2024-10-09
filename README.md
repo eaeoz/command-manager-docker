@@ -1,6 +1,6 @@
 # CommandManager App
 
-#### Control your ssh remote server using graphical user interface, run commands and read results. Create, edit, delete gui component ( as your command ), create profiles to manage multiple ssh hosts in the same gui
+#### Control your ssh remote server using graphical user interface at component view, create ssh host profile, run commands and read results. Create, edit or delete gui component, then run command you set by clicking the component whenever you need, using this app
 
 ##### docker-compose.yml
 
@@ -22,7 +22,7 @@ services:
 - Access from url:
   `http://<your-host-ip>:3000`
 
-- You can change setting using config/.env file (this hidden file includes, port, timeout, and custom env file paths), then restart container for this
+- You can change setting using config/.env file for command timeout, default 10 seconds
 
 ---
 
