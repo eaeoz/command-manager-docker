@@ -1,6 +1,6 @@
 # CommandManager App
 
-#### Control your ssh remote server using graphical user interface at component view, create ssh host profile, run commands and read results. Create, edit or delete gui component, then run command you set by clicking the component whenever you need, using this app
+#### Control your ssh remote server using graphical user interface at component view, create ssh host profile, run commands and read results. Create, edit or delete gui component, then run command you set by clicking the component whenever you need using this app
 
 ##### docker-compose.yml
 
