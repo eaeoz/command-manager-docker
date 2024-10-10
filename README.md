@@ -22,8 +22,6 @@ services:
 - Access from url:
   `http://<your-host-ip>:3000`
 
-- You can change setting using config/.env file for command timeout, default 10 seconds
-
 ---
 
 ##### Download Windows Desktop App
