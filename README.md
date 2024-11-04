@@ -28,4 +28,4 @@ services:
 
 - [Instruction](https://github.com/eaeoz/command-manager-windows)
 
-- [Installation File](https://drive.google.com/drive/folders/1Fw_sANe6mx-e9P2E3e_leCb6ssTtbbGt?usp=drive_link)
+- [Installation File](https://github.com/eaeoz/command-manager-windows/releases/download/1.0.0/CommandManager_1.0.0.exe)
