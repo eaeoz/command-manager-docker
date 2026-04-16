@@ -24,7 +24,10 @@ services:
 
 ---
 
-##### Download Windows Desktop App
+##### Download Windows Desktop App 
+
+- ⚠️**(not updated, cloud access and windows app not work until next update, docker version available)**⚠️
+
 
 - [Instruction](https://github.com/eaeoz/command-manager-windows)
 
