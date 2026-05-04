@@ -22,10 +22,3 @@ services:
 - Access from url:
   `http://<your-host-ip>:3000`
 
----
-
-##### Download Windows Desktop App
-
-- [Instruction](https://github.com/eaeoz/command-manager-windows)
-
-- [Installation File](https://github.com/eaeoz/command-manager-windows/releases/download/1.0.0/CommandManager_1.0.0.exe)
