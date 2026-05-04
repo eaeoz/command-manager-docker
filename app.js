@@ -1179,7 +1179,7 @@ app.get('/', (req, res) => {
         
           <li><a href="https://github.com/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-github"></i> Github</a></li>
           <li><a href="https://hub.docker.com/r/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-docker"></i> DockerHub</a></li>
-          <li><a href="mailto:sedatergoz@gmail.com" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
+          <li><a href="https://sedat.netlify.app/contact" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
         </ul>
       </navx>
         <script src="/data/js/all.min.js"></script>
