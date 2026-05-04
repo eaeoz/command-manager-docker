@@ -815,6 +815,7 @@ app.get('/', (req, res) => {
     width: 100%;
     box-sizing: border-box;
     border: 1px solid #ccc;
+    cursor: text;
 }
 
 #sendPuterBtn {
@@ -839,7 +840,7 @@ app.get('/', (req, res) => {
 #puterResponse {
     width:100%;
     height: 160px;
-    padding: 10px;
+    padding:10px;
     border-radius: 5px;
     border: 1px solid #ccc;
     background-color: #e7f3fe;
@@ -849,6 +850,8 @@ app.get('/', (req, res) => {
     font-family: Arial, sans-serif;
     font-size: 14px;
     opacity: 0.7;
+    cursor: default;
+    pointer-events: auto;
 }
 
 #puterResponse:focus {
@@ -1643,7 +1646,11 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
         function toggleAccordion() {
             const content = document.querySelector('#accordion > div[style]');
             if (content) {
-                content.style.display = content.style.display === 'flex' ? 'none' : 'flex';
+                const isVisible = content.style.display === 'flex';
+                content.style.display = isVisible ? 'none' : 'flex';
+                if (!isVisible) {
+                    setTimeout(() => document.getElementById('puterPrompt').focus(), 100);
+                }
             }
         }
 
@@ -1671,6 +1678,14 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
             const selectedText = window.getSelection().toString().trim();
             if (selectedText) {
                 document.querySelector('#commandForm input[name="command"]').value = selectedText;
+            }
+        });
+
+        // Enter key in prompt textbox sends to AI
+        document.getElementById('puterPrompt').addEventListener('keydown', function(e) {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                sendPuterRequest();
             }
         });
 
