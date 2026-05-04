@@ -1,4 +1,4 @@
-const { app, BrowserWindow, Menu, shell } = require('electron');
+const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
 
@@ -94,6 +94,18 @@ function createWindow() {
     startServer(appPath);
     loadWithRetry(mainWindow, 'http://localhost:3000');
 
+    mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        shell.openExternal(url);
+        return { action: 'deny' };
+    });
+
+    mainWindow.webContents.on('will-navigate', (event, url) => {
+        if (!url.startsWith('http://localhost:3000')) {
+            event.preventDefault();
+            shell.openExternal(url);
+        }
+    });
+
     mainWindow.once('ready-to-show', () => {
         mainWindow.show();
     });
@@ -121,4 +133,9 @@ app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
         createWindow();
     }
+});
+
+ipcMain.handle('open-external', async (event, url) => {
+    await shell.openExternal(url);
+    return true;
 });
