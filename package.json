@@ -46,6 +46,10 @@
     "win": {
       "target": [
         {
+          "target": "nsis",
+          "arch": ["x64"]
+        },
+        {
           "target": "portable",
           "arch": ["x64"]
         }
@@ -56,10 +60,16 @@
     "portable": {
       "artifactName": "${productName}_portable_${version}.${ext}"
     },
+    "nsis": {
+      "installerIcon": "data/gear.ico",
+      "uninstallerIcon": "data/gear.ico",
+      "installerHeaderIcon": "data/gear.ico"
+    },
     "files": [
       "app.js",
       "src/**/*",
       "data/**/*",
+      "config/**/*",
       "package.json"
     ]
   }
