@@ -51,7 +51,16 @@ const ensureFileExists = (filePath) => {
 const loadCommands = () => {
     ensureFileExists(commandsFile);  // Check or create commands.json
     const data = fs.readFileSync(commandsFile);
-    return JSON.parse(data);
+    const commands = JSON.parse(data);
+    // Ensure each command has styling properties
+    return commands.map(cmd => ({
+        textColor: '#000000',
+        backgroundColor: '#e2e2e2',
+        gradientColor: '',
+        fontSize: '16',
+        fontType: 'Arial, sans-serif',
+        ...cmd
+    }));
 };
 
 // Save commands to file
@@ -396,6 +405,43 @@ app.get('/', (req, res) => {
     border-top: none;
 }
 
+/* Command Style Modal */
+#styleModal {
+    display: none;
+    position: fixed;
+    z-index: 1002;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0, 0, 0, 0.7);
+}
+
+#styleModal .modal-content {
+    text-align: center;
+    background-color: #f4f4f4;
+    margin: 10% auto;
+    padding: 20px;
+    border: 1px solid #888;
+    width: 33%;
+    max-width: 600px;
+    border-radius: 10px;
+}
+
+#styleModal input[type="color"] {
+    width: 50px;
+    height: 30px;
+    border: none;
+    cursor: pointer;
+}
+
+#styleModal select, #styleModal input[type="number"] {
+    padding: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
 
             .gear-icon, .url-icon {
                 box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.6);
@@ -706,13 +752,14 @@ app.get('/', (req, res) => {
         <div class="modal-content">
             <span class="close" id="closeProfileModal">&times;</span>
             <h2>Manage Profiles</h2>
-            
+
             <!-- Tabs -->
             <div class="tab">
                 <button class="tablinks" onclick="openTab(event, 'AddProfile')">Add Profile</button>
                 <button class="tablinks" onclick="openTab(event, 'EditProfile')">Edit Profile</button>
+                <button class="tablinks" onclick="openTab(event, 'BackupRestore')">Backup/Restore</button>
             </div>
-    
+
             <!-- Tab content -->
             <div id="AddProfile" class="tabcontent">
                 <form class="add-profile-form" id="addProfileForm">
@@ -725,7 +772,7 @@ app.get('/', (req, res) => {
                     <button type="submit">Add Profile</button>
                 </form>
             </div>
-    
+
             <div id="EditProfile" class="tabcontent" style="display:none;">
             <h3>Edit Profile</h3>
             <form class="edit-profile-form" id="editProfileForm" style="display:none;">
@@ -742,6 +789,39 @@ app.get('/', (req, res) => {
                         <!-- Profiles will be dynamically added here -->
                     </div>
                 </div>
+            </div>
+
+            <div id="BackupRestore" class="tabcontent" style="display:none;">
+                <h3>Backup / Restore</h3>
+                <button onclick="backupConfig()" style="padding:10px; background-color:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer; margin:5px;">Backup Configuration</button>
+                <br><br>
+                <input type="file" id="restoreFile" accept=".json" style="margin:10px;" />
+                <button onclick="restoreConfig()" style="padding:10px; background-color:#2196F3; color:white; border:none; border-radius:5px; cursor:pointer;">Restore Configuration</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="styleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeStyleModal">&times;</span>
+            <h2>Style Command</h2>
+            <input type="hidden" id="styleCommandTitle">
+            <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
+                <label>Title: <input type="text" id="styleTitle" style="padding:5px; border-radius:5px; border:1px solid #ccc;" /></label>
+                <label>Text Color: <input type="color" id="styleTextColor" value="#000000" /></label>
+                <label>Background Color (Solid): <input type="color" id="styleBgColor" value="#e2e2e2" /></label>
+                <label>Gradient Color (Optional): <input type="color" id="styleGradientColor" value="#e2e2e2" /></label>
+                <label>Font Size (px): <input type="number" id="styleFontSize" value="16" min="10" max="50" /></label>
+                <label>Font Type:
+                    <select id="styleFontType">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="Courier New, monospace">Courier New</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                        <option value="Times New Roman, serif">Times New Roman</option>
+                    </select>
+                </label>
+                <button onclick="saveStyle()" style="padding:10px; background-color:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer;">Save Style</button>
             </div>
         </div>
     </div>
@@ -770,14 +850,18 @@ app.get('/', (req, res) => {
 
 
         <div class="command-container" id="draggable-command-list">
-            ${commands.map(cmd => `
-                <div class="command-card" data-line-number="${cmd.lineNumber}">
+            ${commands.map(cmd => {
+                const bgStyle = cmd.gradientColor && cmd.gradientColor !== cmd.backgroundColor ?
+                    `background: linear-gradient(180deg, ${cmd.gradientColor} 0%, ${cmd.backgroundColor} 100%);` :
+                    `background-color: ${cmd.backgroundColor};`;
+                return `
+                <div class="command-card" data-line-number="${cmd.lineNumber}" oncontextmenu="openStyleModal(event, '${cmd.title}')">
                 ${cmd.url ? `
                 <div class="url-icon" id="url-${cmd.title}" onclick="window.open('${cmd.url}', '_blank')">
                     <img src="/data/url.png" alt="Link Icon">
                 </div>
                 ` : ''}
-                    <button class="command-title-button" id="title-${cmd.title}" onclick="runCommand('${cmd.command}', '${cmd.profile}')">
+                    <button class="command-title-button" id="title-${cmd.title}" onclick="runCommand('${cmd.command}', '${cmd.profile}')" style="color:${cmd.textColor}; font-size:${cmd.fontSize}px; font-family:${cmd.fontType}; ${bgStyle}">
                         ${cmd.title}
                     </button>
                     <div class="gear-icon" onclick="toggleActions('${cmd.title}')">
@@ -799,7 +883,7 @@ app.get('/', (req, res) => {
                     <button class="submitButton" type="submit">Save</button>
                 </form>
                 </div>
-            `).join('')}
+            `}).join('')}
         </div>
 
         <div id="accordion">
@@ -917,11 +1001,101 @@ close.addEventListener('click', ()=>{
         closeProfileModal.addEventListener('click', () => {
             profileModal.style.display = 'none';
         });
-        
+
+        // Style Modal functionality
+        const styleModal = document.getElementById('styleModal');
+        const closeStyleModal = document.getElementById('closeStyleModal');
+
+        closeStyleModal.addEventListener('click', () => {
+            styleModal.style.display = 'none';
+        });
+
+        // Open style modal on right-click
+        function openStyleModal(event, title) {
+            event.preventDefault();
+            fetch('/commands')
+                .then(response => response.json())
+                .then(commands => {
+                    const cmd = commands.find(c => c.title === title);
+                    if (!cmd) return;
+
+                    document.getElementById('styleCommandTitle').value = title;
+                    document.getElementById('styleTitle').value = cmd.title || title;
+                    document.getElementById('styleTextColor').value = cmd.textColor || '#000000';
+                    document.getElementById('styleBgColor').value = cmd.backgroundColor || '#e2e2e2';
+                    document.getElementById('styleGradientColor').value = cmd.gradientColor || '#e2e2e2';
+                    document.getElementById('styleFontSize').value = cmd.fontSize || 16;
+                    document.getElementById('styleFontType').value = cmd.fontType || 'Arial, sans-serif';
+
+                    styleModal.style.display = 'block';
+                });
+        }
+
+        // Save style changes
+        function saveStyle() {
+            const oldTitle = document.getElementById('styleCommandTitle').value;
+            const newTitle = document.getElementById('styleTitle').value;
+            const textColor = document.getElementById('styleTextColor').value;
+            const backgroundColor = document.getElementById('styleBgColor').value;
+            const gradientColor = document.getElementById('styleGradientColor').value;
+            const fontSize = document.getElementById('styleFontSize').value;
+            const fontType = document.getElementById('styleFontType').value;
+
+            fetch('/style', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ oldTitle, newTitle, textColor, backgroundColor, gradientColor, fontSize, fontType })
+            }).then(() => {
+                styleModal.style.display = 'none';
+                location.reload();
+            });
+        }
+
+        // Backup configuration
+        function backupConfig() {
+            fetch('/backup')
+                .then(response => response.json())
+                .then(data => {
+                    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+                    const url = URL.createObjectURL(blob);
+                    const a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'command-manager-backup.json';
+                    a.click();
+                    URL.revokeObjectURL(url);
+                });
+        }
+
+        // Restore configuration
+        function restoreConfig() {
+            const fileInput = document.getElementById('restoreFile');
+            if (!fileInput.files.length) {
+                alert('Please select a backup file.');
+                return;
+            }
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const data = JSON.parse(e.target.result);
+                fetch('/restore', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                }).then(() => {
+                    alert('Configuration restored successfully!');
+                    location.reload();
+                });
+            };
+            reader.readAsText(file);
+        }
+
         // Close the modal when clicking outside of it
         window.onclick = (event) => {
             if (event.target === profileModal) {
                 profileModal.style.display = 'none';
+            }
+            if (event.target === styleModal) {
+                styleModal.style.display = 'none';
             }
         };
         
@@ -1306,6 +1480,17 @@ app.post('/reorder', (req, res) => {
     res.sendStatus(200);
 });
 
+// API endpoints for commands
+app.get('/commands', (req, res) => {
+    try {
+        const commands = loadCommands();
+        res.json(commands);
+    } catch (error) {
+        console.error('Error loading commands:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+});
+
 // API endpoints for profiles
 app.get('/profiles', (req, res) => {
     try {
@@ -1392,7 +1577,18 @@ app.post('/commands', (req, res) => {
     }
 
     const newLineNumber = commands.length ? commands[commands.length - 1].lineNumber + 1 : 1;
-    const newCommand = { lineNumber: newLineNumber, title, command, url, profile };
+    const newCommand = {
+        lineNumber: newLineNumber,
+        title,
+        command,
+        url,
+        profile,
+        textColor: '#000000',
+        backgroundColor: '#e2e2e2',
+        gradientColor: '',
+        fontSize: '16',
+        fontType: 'Arial, sans-serif'
+    };
 
     commands.push(newCommand);
     saveCommands(commands);
@@ -1440,6 +1636,47 @@ app.post('/delete', (req, res) => {
     commands = commands.filter(cmd => cmd.title !== req.body.title);
     saveCommands(commands);
     res.sendStatus(200);
+});
+
+// Update command style
+app.post('/style', (req, res) => {
+    const { oldTitle, newTitle, textColor, backgroundColor, gradientColor, fontSize, fontType } = req.body;
+    const commands = loadCommands();
+    const cmdIndex = commands.findIndex(cmd => cmd.title === oldTitle);
+
+    if (cmdIndex === -1) {
+        return res.status(404).json({ error: 'Command not found' });
+    }
+
+    commands[cmdIndex] = {
+        ...commands[cmdIndex],
+        title: newTitle,
+        textColor,
+        backgroundColor,
+        gradientColor,
+        fontSize,
+        fontType
+    };
+
+    saveCommands(commands);
+    res.json({ success: true });
+});
+
+// Backup configuration
+app.get('/backup', (req, res) => {
+    const commands = loadCommands();
+    const profiles = loadProfiles();
+    res.json({ commands, profiles });
+});
+
+// Restore configuration
+app.post('/restore', (req, res) => {
+    const { commands, profiles } = req.body;
+
+    if (commands) saveCommands(commands);
+    if (profiles) saveProfiles(profiles);
+
+    res.json({ success: true });
 });
 
 
