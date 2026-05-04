@@ -780,16 +780,26 @@ app.get('/', (req, res) => {
             margin-bottom: 5px;
         }
 
-.accordion-left, .accordion-center, .accordion-right {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
+        .accordion-left, .accordion-center, .accordion-right {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            position: relative;
+            z-index: 10;
+        }
 
-.accordion-left {
-    width: 25%;
-    margin-top: 15px;
-}
+        .accordion-left {
+            width: 25%;
+            margin-top: 15px;
+            pointer-events: auto;
+        }
+
+        .accordion-left input {
+            pointer-events: auto !important;
+            cursor: text !important;
+            position: relative;
+            z-index: 100;
+        }
 
 .accordion-center {
     width: 40%;
@@ -1235,29 +1245,33 @@ app.get('/', (req, res) => {
             `}).join('')}
         </div>
 
-        <div id="accordion">
+        <div id="accordion" style="position:relative; z-index:100; width:90%; margin:0 auto;">
             <button id="toggleButton" onclick="toggleAccordion()">Add Command</button>
-            <div style="display:none; flex-direction:row; gap:20px; width:100%;">
-                <div class="accordion-left">
-                    <input type="text" id="puterPrompt" placeholder="Ask AI..." />
-                    <button id="sendPuterBtn" onclick="sendPuterRequest()">Send to AI</button>
-                </div>
-                <div class="accordion-center">
-                    <form id="commandForm" style="display:flex; flex-direction:column; align-items:center;">
-                    <input type="text" name="title" placeholder="Command Title" required>
-                    <input type="text" name="command" placeholder="Command" required>
-                    <input type="text" name="url" placeholder="URL (optional)">
-                    <select name="profile" id="profileSelect" required>
-                        ${profiles.map(profile => `
-                            <option value="${profile.title}">${profile.title}</option>
-                        `).join('')}
-                    </select>
-                    <button type="submit">Add Command</button>
-                    </form>
-                </div>
-                <div class="accordion-right">
-                    <textarea id="puterResponse" readonly placeholder="AI response will appear here..."></textarea>
-                    <div class="response-hint">Right-click selected text to copy it to Command field</div>
+            <div id="accordionContent" style="display:none; width:100%;">
+                <div style="display:flex; gap:20px; width:100%;">
+                    <div style="width:25%; margin-top:15px;">
+                        <form onsubmit="event.preventDefault(); sendPuterRequest();" style="margin:0; padding:0;">
+                            <textarea id="puterPrompt" placeholder="Ask AI..." rows="5" style="width:100%; padding:8px; border-radius:10px; border:1px solid #ccc; cursor:text; resize:vertical; box-sizing:border-box; font-family:Arial,sans-serif; font-size:14px;"></textarea>
+                            <button id="sendPuterBtn" onclick="sendPuterRequest()" style="width:100%; margin-top:10px; padding:10px 15px; background-color:#2196F3; color:white; border:none; border-radius:15px; cursor:pointer;">Send to AI</button>
+                        </form>
+                    </div>
+                    <div style="width:40%; display:flex; justify-content:center;">
+                        <form id="commandForm" style="display:flex; flex-direction:column; align-items:center; width:100%; background-color:#e7f3fe; border-radius:20px; padding:10px;">
+                        <input type="text" name="title" placeholder="Command Title" required style="width:90%; margin:5px; padding:8px; border-radius:10px;">
+                        <input type="text" name="command" placeholder="Command" required style="width:90%; margin:5px; padding:8px; border-radius:10px;">
+                        <input type="text" name="url" placeholder="URL (optional)" style="width:90%; margin:5px; padding:8px; border-radius:10px;">
+                        <select name="profile" id="profileSelect" required style="width:90%; margin:5px; padding:8px; border-radius:10px;">
+                            ${profiles.map(profile => `
+                                <option value="${profile.title}">${profile.title}</option>
+                            `).join('')}
+                        </select>
+                        <button type="submit" style="width:90%; padding:10px 15px; background-color:#4CAF50; color:white; border:none; border-radius:15px; cursor:pointer; transform:scale(0.8);">Add Command</button>
+                        </form>
+                    </div>
+                    <div style="width:25%; margin-top:15px;">
+                            <textarea id="puterResponse" readonly placeholder="AI response will appear here..." style="width:100%; height:220px; padding:10px; border-radius:5px; border:1px solid #ccc; background-color:#e7f3fe; resize:none; opacity:0.7; cursor:default;"></textarea>
+                        <div class="response-hint">Right-click selected text to copy it to Command field</div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -1644,7 +1658,7 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
             }
         });
         function toggleAccordion() {
-            const content = document.querySelector('#accordion > div[style]');
+            const content = document.getElementById('accordionContent') || document.querySelector('#accordion > div[style]');
             if (content) {
                 const isVisible = content.style.display === 'flex';
                 content.style.display = isVisible ? 'none' : 'flex';
@@ -1681,9 +1695,9 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
             }
         });
 
-        // Enter key in prompt textbox sends to AI
+        // Ctrl+Enter or Cmd+Enter in prompt textarea sends to AI
         document.getElementById('puterPrompt').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter') {
+            if ((e.ctrlKey || e.metaKey) && e.key === 'Enter') {
                 e.preventDefault();
                 sendPuterRequest();
             }
