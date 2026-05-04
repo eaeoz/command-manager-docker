@@ -166,7 +166,7 @@ app.get('/', (req, res) => {
                 border-radius: 0 0 10px 10px;
             }
     
-            /* Profile Modal Styles */
+            /* Modal Base Styles */
             .modal {
                 display: none;
                 position: fixed;
@@ -176,20 +176,62 @@ app.get('/', (req, res) => {
                 width: 100%;
                 height: 100%;
                 overflow: auto;
-                background-color: rgba(0, 0, 0, 0.7);
+                background-color: rgba(0, 0, 0, 0.5);
+                backdrop-filter: blur(2px);
+            }
+
+            #styleModal {
+                z-index: 1002;
             }
 
             .modal-content {
-                text-align: center;
-                background-color: #f4f4f4;
-                margin: 10% auto;
-                padding: 20px;
-                border: 1px solid #888;
-                width: 33%;
+                text-align: left;
+                background-color: white;
+                margin: 5% auto;
+                padding: 30px;
+                border: none;
+                width: 90%;
                 max-width: 600px;
-                border-radius: 10px;
-                max-height: 80vh;
-                overflow-y: auto; 
+                border-radius: 16px;
+                max-height: 85vh;
+                overflow-y: auto;
+                box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+                position: relative;
+            }
+
+            /* Responsive modal sizing */
+            @media (min-width: 768px) {
+                .modal-content {
+                    width: 50%;
+                    margin: 10% auto;
+                }
+            }
+
+            @media (min-width: 1024px) {
+                .modal-content {
+                    width: 33%;
+                }
+            }
+
+            .close {
+                color: #999;
+                position: absolute;
+                top: 20px;
+                right: 24px;
+                font-size: 28px;
+                font-weight: bold;
+                cursor: pointer;
+                line-height: 1;
+                padding: 4px 8px;
+                border-radius: 4px;
+                transition: all 0.2s;
+            }
+
+            .close:hover,
+            .close:focus {
+                color: #333;
+                background-color: #f5f5f5;
+                text-decoration: none;
             }
 
             .modal-content h2 {
@@ -218,73 +260,143 @@ app.get('/', (req, res) => {
             .profile-list {
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
-                padding: 10px;
+                gap: 8px;
+                padding: 0;
+                margin-top: 16px;
             }
 
             .profile-list-container {
-                max-height: 400px; /* Set the desired maximum height of the profile list */
-                overflow-y: auto; /* Add vertical scrollbar if the list exceeds the height */
+                max-height: 400px;
+                overflow-y: auto;
+                padding-right: 8px;
+            }
+
+            .profile-list-container::-webkit-scrollbar {
+                width: 6px;
+            }
+
+            .profile-list-container::-webkit-scrollbar-thumb {
+                background-color: #ddd;
+                border-radius: 3px;
             }
 
             .profile-item {
                 display: flex;
                 justify-content: space-between;
-                padding: 10px;
-                background-color: #ddd;
-                border-radius: 5px;
-                margin-bottom: 10px;
-                background-color: #f1f1f1;
+                align-items: center;
+                padding: 14px 16px;
+                background-color: #fafafa;
+                border-radius: 10px;
+                border: 1px solid #f0f0f0;
+                transition: all 0.2s;
+            }
+
+            .profile-item:hover {
+                background-color: #f5f5f5;
+                border-color: #e0e0e0;
+            }
+
+            .profile-item span {
+                font-weight: 500;
+                color: #333;
+            }
+
+            .profile-item div {
+                display: flex;
+                gap: 8px;
             }
 
             .profile-item button {
-                background-color: #f44336;
+                background-color: #F44336;
                 color: white;
                 border: none;
                 cursor: pointer;
-                padding: 5px;
-                border-radius: 3px;
-                width: 100px;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-size: 13px;
+                font-weight: 500;
+                transition: all 0.2s;
+                min-width: 70px;
             }
 
             .profile-item button:hover {
                 background-color: #d32f2f;
+                transform: translateY(-1px);
+                box-shadow: 0 2px 8px rgba(244, 67, 54, 0.3);
             }
 
             .profile-item button:active {
-                transform: scale(0.95);
+                transform: translateY(0);
             }
 
             .profile-item button.edit-profile {
                 background-color: #2196F3;
-                
+            }
+
+            .profile-item button.edit-profile:hover {
+                background-color: #1976D2;
+                box-shadow: 0 2px 8px rgba(33, 150, 243, 0.3);
             }
 
             .add-profile-form {
                 margin-top: 20px;
                 display: flex;
                 flex-direction: column;
-                gap: 10px;
+                gap: 14px;
             }
 
-            .add-profile-form input {
-                padding: 10px;
+            .add-profile-form input,
+            .edit-profile-form input,
+            #styleModal input[type="text"],
+            #styleModal select {
+                padding: 12px 16px;
                 width: 100%;
-                border-radius: 5px;
-                border: 1px solid #ccc;
+                border-radius: 8px;
+                border: 1px solid #e0e0e0;
+                font-size: 14px;
+                transition: all 0.2s;
+                box-sizing: border-box;
+                background-color: #fafafa;
             }
 
-            .add-profile-form button {
-                padding: 10px;
-                background-color: #4CAF50;
+            .add-profile-form input:focus,
+            .edit-profile-form input:focus,
+            #styleModal input:focus,
+            #styleModal select:focus {
+                outline: none;
+                border-color: #F44336;
+                background-color: white;
+                box-shadow: 0 0 0 3px rgba(244, 67, 54, 0.1);
+            }
+
+            .add-profile-form button,
+            .edit-profile-form button,
+            #styleModal button,
+            #BackupRestore button {
+                padding: 12px 24px;
+                background-color: #F44336;
                 color: white;
                 border: none;
                 cursor: pointer;
-                border-radius: 5px;
+                border-radius: 8px;
+                font-size: 14px;
+                font-weight: 500;
+                transition: all 0.2s;
+                width: 100%;
             }
 
-            .add-profile-form button:hover {
-                background-color: #45a049;
+            .add-profile-form button:hover,
+            .edit-profile-form button:hover,
+            #styleModal button:hover {
+                background-color: #d32f2f;
+                transform: translateY(-1px);
+                box-shadow: 0 4px 12px rgba(244, 67, 54, 0.3);
+            }
+
+            .add-profile-form button:active,
+            .edit-profile-form button:active,
+            #styleModal button:active {
+                transform: translateY(0);
             }
 
             .command-container {
@@ -376,70 +488,157 @@ app.get('/', (req, res) => {
 
             /* Tabs */
 .tab {
-    overflow: hidden;
-    border-bottom: 1px solid #ccc;
-    margin-bottom: 20px;
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid #f0f0f0;
+    margin-bottom: 24px;
+    padding-bottom: 0;
 }
 
 .tab button {
-    background-color: inherit;
+    background-color: transparent;
     border: none;
     outline: none;
     cursor: pointer;
-    padding: 14px 16px;
-    transition: 0.3s;
-    font-size: 17px;
+    padding: 12px 20px;
+    transition: all 0.3s;
+    font-size: 15px;
+    font-weight: 500;
+    color: #666;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
 }
 
 .tab button:hover {
-    background-color: #ddd;
+    color: #333;
+    background-color: #f8f8f8;
+    border-radius: 8px 8px 0 0;
 }
 
 .tab button.active {
-    background-color: #ccc;
+    color: #F44336;
+    border-bottom-color: #F44336;
+    background-color: transparent;
 }
 
 .tabcontent {
     display: none;
-    padding: 6px 12px;
+    padding: 0;
     border-top: none;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-content h2 {
+    background-color: transparent;
+    color: #333;
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0 0 20px 0;
+    padding: 0;
+    text-align: left;
+    text-shadow: none;
 }
 
 /* Command Style Modal */
-#styleModal {
-    display: none;
-    position: fixed;
-    z-index: 1002;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
-    background-color: rgba(0, 0, 0, 0.7);
+#styleModal .modal-content h2 {
+    margin-bottom: 24px;
 }
 
-#styleModal .modal-content {
-    text-align: center;
-    background-color: #f4f4f4;
-    margin: 10% auto;
-    padding: 20px;
-    border: 1px solid #888;
-    width: 33%;
-    max-width: 600px;
+#styleModal label {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 16px;
+    background-color: #fafafa;
     border-radius: 10px;
+    border: 1px solid #f0f0f0;
+    font-size: 14px;
+    font-weight: 500;
+    color: #555;
+    transition: all 0.2s;
+}
+
+#styleModal label:hover {
+    background-color: #f5f5f5;
+    border-color: #e0e0e0;
 }
 
 #styleModal input[type="color"] {
-    width: 50px;
-    height: 30px;
-    border: none;
+    width: 48px;
+    height: 40px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
     cursor: pointer;
+    padding: 2px;
+    background-color: white;
 }
 
-#styleModal select, #styleModal input[type="number"] {
-    padding: 5px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+#styleModal input[type="color"]:hover {
+    border-color: #F44336;
+}
+
+#styleModal input[type="number"] {
+    padding: 10px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    width: 80px;
+    background-color: white;
+}
+
+#styleModal select {
+    padding: 10px 14px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    background-color: white;
+    cursor: pointer;
+    flex: 1;
+}
+
+#styleModal div[style*="flex-direction:column"] {
+    background-color: #fafafa;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #f0f0f0;
+}
+
+/* Backup/Restore Section */
+#BackupRestore {
+    text-align: center;
+}
+
+#BackupRestore h3 {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: #333;
+}
+
+#BackupRestore button {
+    margin: 8px;
+    max-width: 250px;
+}
+
+#BackupRestore input[type="file"] {
+    display: block;
+    margin: 20px auto;
+    padding: 12px;
+    border: 2px dashed #e0e0e0;
+    border-radius: 10px;
+    width: 90%;
+    cursor: pointer;
+    background-color: #fafafa;
+    transition: all 0.2s;
+}
+
+#BackupRestore input[type="file"]:hover {
+    border-color: #F44336;
+    background-color: #fff5f5;
 }
 
 
