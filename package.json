@@ -1,27 +1,66 @@
 {
-  "name": "run-script-gui",
+  "name": "command-manager",
   "version": "1.0.0",
-  "bin": "app.js",
-  "main": "app.js",
+  "description": "SSH Command Manager with GUI",
+  "main": "src/main/main.js",
   "scripts": {
-    "start": "nodemon app.js"
+    "start": "nodemon app.js",
+    "electron": "electron .",
+    "build": "electron-builder --win --x64 --publish never",
+    "build:dir": "electron-builder --win --x64 --dir --publish never"
   },
   "pkg": {
-    "targets": [
-      "node18-win-x64"
-    ]
+    "targets": ["node18-win-x64"]
   },
   "keywords": [],
-  "author": "",
+  "author": {
+    "name": "Sedat Ergoz",
+    "email": "sedatergoz@gmail.com"
+  },
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "body-parser": "^1.20.3",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
     "font-awesome": "^4.7.0",
     "fs": "^0.0.1-security",
-    "nodemon": "^3.1.7",
     "ssh2": "^1.16.0"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1",
+    "nodemon": "^3.1.7",
+    "png-to-ico": "^3.0.1"
+  },
+  "build": {
+    "appId": "com.commandmanager.app",
+    "productName": "Command Manager",
+    "copyright": "Copyright © 2024 Sedat Ergoz",
+    "directories": {
+      "output": "dist"
+    },
+    "asar": false,
+    "electronDownload": {
+      "cache": "dist/electron-cache"
+    },
+    "win": {
+      "target": [
+        {
+          "target": "portable",
+          "arch": ["x64"]
+        }
+      ],
+      "icon": "data/gear.ico",
+      "signAndEditExecutable": false
+    },
+    "portable": {
+      "artifactName": "${productName}_portable_${version}.${ext}"
+    },
+    "files": [
+      "app.js",
+      "src/**/*",
+      "data/**/*",
+      "package.json"
+    ]
   }
 }

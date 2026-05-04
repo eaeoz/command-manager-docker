@@ -1,14 +1,1 @@
-[
-  {
-    "lineNumber": 1,
-    "title": "test",
-    "command": "whoami",
-    "url": "",
-    "profile": "Profile 1",
-    "textColor": "#000000",
-    "backgroundColor": "#e2e2e2",
-    "gradientColor": "",
-    "fontSize": "16",
-    "fontType": "Arial, sans-serif"
-  }
-]
+[]

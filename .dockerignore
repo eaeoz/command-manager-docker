@@ -1,0 +1,13 @@
+node_modules/
+dist/
+.git
+.gitignore
+*.md
+.env
+config/commands.json
+config/profiles.json
+electron.js
+electron-builder.yml
+build-fast.js
+create-icon.js
+package-lock.json

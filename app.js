@@ -1,8 +1,25 @@
-const fs = require('fs');
+﻿const fs = require('fs');
 const path = require('path');
 
+// Determine config directory (works for Electron main, Electron child, and plain Node.js)
+const getConfigDir = () => {
+    // When spawned as a child process from Electron main (ELECTRON_RUN_AS_NODE=1),
+    // the parent passes the userData path via ELECTRON_USERDATA env var.
+    if (process.env.ELECTRON_USERDATA) {
+        return process.env.ELECTRON_USERDATA;
+    }
+    // Running inside Electron main process (not a child spawn)
+    if (process.versions && process.versions.electron && !process.env.ELECTRON_RUN_AS_NODE) {
+        const { app } = require('electron');
+        return app.getPath('userData');
+    }
+    // Plain Node.js (Docker / dev server)
+    return path.resolve(__dirname, 'config');
+};
+
 // Define the .env file path
-const envPath = path.resolve(__dirname, 'config', '.env');
+const configDir = getConfigDir();
+const envPath = path.join(configDir, '.env');
 
 // Default .env content
 const defaultEnvContent = `
@@ -14,6 +31,10 @@ COMMAND_TIMEOUT=10000
 
 // Check if the .env file exists
 if (!fs.existsSync(envPath)) {
+    // Ensure config directory exists
+    if (!fs.existsSync(configDir)) {
+        fs.mkdirSync(configDir, { recursive: true });
+    }
     // Create the .env file with default content
     fs.writeFileSync(envPath, defaultEnvContent.trim());
     console.log('.env file created with default values.');
@@ -22,7 +43,7 @@ if (!fs.existsSync(envPath)) {
 }
 
 // Load environment variables from .env file
-require('dotenv').config({ path: './config/.env' });
+require('dotenv').config({ path: envPath });
 
 const express = require('express');
 const bodyParser = require('body-parser');
@@ -30,8 +51,8 @@ const { Client } = require('ssh2');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
-const commandsFile = path.join(__dirname, 'config', process.env.COMMANDS_FILE || 'commands.json');
-const profilesFile = path.join(__dirname, 'config', process.env.PROFILES_FILE || 'profiles.json');
+const commandsFile = path.join(configDir, process.env.COMMANDS_FILE || 'commands.json');
+const profilesFile = path.join(configDir, process.env.PROFILES_FILE || 'profiles.json');
 
 
 // Middleware
@@ -1941,7 +1962,11 @@ app.get('/redirect', (req, res) => {
 
 
 
-// Start the server
-app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
-});
+// Start the server if running directly (not required as module)
+if (!module.parent) {
+    app.listen(PORT, () => {
+        console.log(`Server is running on http://localhost:${PORT}`);
+    });
+}
+
+module.exports = app;
