@@ -6,12 +6,13 @@ const getConfigDir = () => {
     // When spawned as a child process from Electron main (ELECTRON_RUN_AS_NODE=1),
     // the parent passes the userData path via ELECTRON_USERDATA env var.
     if (process.env.ELECTRON_USERDATA) {
-        return process.env.ELECTRON_USERDATA;
+        // Use a 'config' subfolder inside userData to match Docker structure
+        return path.join(process.env.ELECTRON_USERDATA, 'config');
     }
     // Running inside Electron main process (not a child spawn)
     if (process.versions && process.versions.electron && !process.env.ELECTRON_RUN_AS_NODE) {
         const { app } = require('electron');
-        return app.getPath('userData');
+        return path.join(app.getPath('userData'), 'config');
     }
     // Plain Node.js (Docker / dev server)
     return path.resolve(__dirname, 'config');
@@ -19,6 +20,58 @@ const getConfigDir = () => {
 
 // Define the .env file path
 const configDir = getConfigDir();
+
+const initializeConfig = () => {
+    const isElectron = !!(process.versions && process.versions.electron);
+    const isElectronSpawn = !!process.env.ELECTRON_USERDATA;
+    if (!isElectron && !isElectronSpawn) return;
+
+    const logFile = path.join(configDir, '..', 'init-debug.log');
+    const log = (msg) => {
+        const line = `[${new Date().toISOString()}] ${msg}\n`;
+        fs.appendFileSync(logFile, line);
+    };
+
+    log(`Initializing config - configDir: ${configDir}`);
+    log(`Initializing config - __dirname: ${__dirname}`);
+    log(`ELECTRON_USERDATA: ${process.env.ELECTRON_USERDATA || 'not set'}`);
+    log(`ELECTRON_RUN_AS_NODE: ${process.env.ELECTRON_RUN_AS_NODE || 'not set'}`);
+
+    const bundledConfigDir = path.join(__dirname, 'config');
+    log(`Bundled config dir: ${bundledConfigDir}`);
+    log(`Bundled config dir exists: ${fs.existsSync(bundledConfigDir)}`);
+
+    if (!fs.existsSync(bundledConfigDir)) {
+        log('Bundled config dir not found, skipping copy');
+        return;
+    }
+
+    if (!fs.existsSync(configDir)) {
+        fs.mkdirSync(configDir, { recursive: true });
+        log(`Created config directory: ${configDir}`);
+    }
+
+    const filesToCopy = ['.env', 'commands.json', 'profiles.json'];
+    filesToCopy.forEach(file => {
+        const src = path.join(bundledConfigDir, file);
+        const dest = path.join(configDir, file);
+        const srcExists = fs.existsSync(src);
+        const destExists = fs.existsSync(dest);
+        log(`Checking ${file}: src exists=${srcExists}, dest exists=${destExists}`);
+        
+        if (srcExists && !destExists) {
+            try {
+                fs.copyFileSync(src, dest);
+                log(`Copied ${file} to ${dest}`);
+            } catch (err) {
+                log(`Failed to copy ${file}: ${err.message}`);
+            }
+        }
+    });
+};
+
+initializeConfig();
+
 const envPath = path.join(configDir, '.env');
 
 // Default .env content
