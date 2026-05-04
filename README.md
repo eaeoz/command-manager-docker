@@ -11,8 +11,8 @@
 
 | Type | Platform | Download |
 |------|----------|----------|
-| **Installer** | Windows x64 | [Command Manager Setup 1.0.0.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.0/Command.Manager.Setup.1.0.0.exe) |
-| **Portable** | Windows x64 | [Command Manager Portable 1.0.0.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.0/Command.Manager_portable_1.0.0.exe) |
+| **Installer** | Windows x64 | [Command Manager Setup 1.0.2.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.2/Command.Manager.Setup.1.0.2.exe) |
+| **Portable** | Windows x64 | [Command Manager Portable 1.0.2.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.2/Command.Manager_portable_1.0.2.exe) |
 | **Docker** | Cross-platform | `docker pull eaeoz/command-manager-docker:2` |
 
 ---
@@ -35,12 +35,12 @@
 ### Windows (Recommended)
 
 **Option 1: Installer**
-1. Download `Command Manager Setup 1.0.0.exe`
+1. Download `Command Manager Setup 1.0.2.exe`
 2. Run the installer and follow the setup wizard
 3. Launch from Start Menu
 
 **Option 2: Portable**
-1. Download `Command Manager_portable_1.0.0.exe`
+1. Download `Command Manager_portable_1.0.2.exe`
 2. Place in any folder
 3. Run directly - no installation needed
 
