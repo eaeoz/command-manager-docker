@@ -771,41 +771,106 @@ app.get('/', (req, res) => {
                 background-color: #45a049;
             }
 
-            #accordion {
-                flex: 0 0 10px;
-                margin-top: 6px;
-                width: 250px;
-                text-align: center;
-                margin-bottom: 5px;
-            }
+        #accordion {
+            margin-top: 6px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            margin-bottom: 5px;
+        }
 
-            #accordion button {
-                width: 100%;
-                padding: 5px;
-                background-color: #4CAF50;
-                color: white;
-                border: none;
-                cursor: pointer;
-                font-size: 16px;
-                text-transform: uppercase;
-            }
+.accordion-left, .accordion-center, .accordion-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
 
-            #accordion button:hover {
-                background-color: #45a049;
-            }
+.accordion-left {
+    width: 25%;
+    margin-top: 15px;
+}
 
-            #accordion button#toggleButton {
-                background-color: #f44336;
-                margin-bottom: 3px;
-            }
+.accordion-center {
+    width: 40%;
+    align-items: center;
+}
+
+.accordion-right {
+    width: 25%;
+    margin-top: 15px;
+}
+
+#puterPrompt {
+    padding: 8px;
+    border-radius: 10px;
+    width: 100%;
+    box-sizing: border-box;
+    border: 1px solid #ccc;
+}
+
+#sendPuterBtn {
+    border-radius: 15px;
+    padding: 10px 15px;
+    background-color: #2196F3;
+    color: white;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    font-size: 14px;
+    font-weight: 500;
+    transition: all 0.2s;
+}
+
+#sendPuterBtn:hover {
+    background-color: #1976D2;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+}
+
+#puterResponse {
+    width:100%;
+    height: 160px;
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #e7f3fe;
+    resize: none;
+    box-sizing: border-box;
+    user-select: text;
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    opacity: 0.7;
+}
+
+#puterResponse:focus {
+    pointer-events: auto;
+}
+
+             #accordion > button#toggleButton {
+                 width: 100%;
+                 padding: 5px;
+                 background-color: #f44336;
+                 color: white;
+                 border: none;
+                 cursor: pointer;
+                 font-size: 16px;
+                 text-transform: uppercase;
+                 margin-bottom: 3px;
+             }
+
+             #accordion > button#toggleButton:hover {
+                 background-color: #d32f2f;
+             }
 
             #commandForm {
                 border-radius: 20px;
                 background-color: #e7f3fe;
-                display: none;
+                display: flex;
                 flex-direction: column;
                 align-items: center;
                 margin-top: 10px;
+                width: 100%;
             }
 
             #commandForm input {
@@ -1161,17 +1226,28 @@ app.get('/', (req, res) => {
 
         <div id="accordion">
             <button id="toggleButton" onclick="toggleAccordion()">Add Command</button>
-            <form id="commandForm">
-            <input type="text" name="title" placeholder="Command Title" required>
-            <input type="text" name="command" placeholder="Command" required>
-            <input type="text" name="url" placeholder="URL (optional)">
-            <select name="profile" id="profileSelect" required>
-                ${profiles.map(profile => `
-                    <option value="${profile.title}">${profile.title}</option>
-                `).join('')}
-            </select>
-            <button type="submit">Add Command</button>
-        </form>
+            <div style="display:none; flex-direction:row; gap:20px; width:100%;">
+                <div class="accordion-left">
+                    <input type="text" id="puterPrompt" placeholder="Ask AI..." />
+                    <button id="sendPuterBtn" onclick="sendPuterRequest()">Send to AI</button>
+                </div>
+                <div class="accordion-center">
+                    <form id="commandForm" style="display:flex; flex-direction:column; align-items:center;">
+                    <input type="text" name="title" placeholder="Command Title" required>
+                    <input type="text" name="command" placeholder="Command" required>
+                    <input type="text" name="url" placeholder="URL (optional)">
+                    <select name="profile" id="profileSelect" required>
+                        ${profiles.map(profile => `
+                            <option value="${profile.title}">${profile.title}</option>
+                        `).join('')}
+                    </select>
+                    <button type="submit">Add Command</button>
+                    </form>
+                </div>
+                <div class="accordion-right">
+                    <textarea id="puterResponse" readonly placeholder="AI response will appear here..."></textarea>
+                </div>
+            </div>
         </div>
         </div>
         <navx>
@@ -1184,6 +1260,7 @@ app.get('/', (req, res) => {
       </navx>
         <script src="/data/js/all.min.js"></script>
         <script src="/data/js/Sortable.min.js"></script>
+        <script src="https://js.puter.com/v2/"></script>
         <script>
         const open = document.querySelector("#open")
 const close = document.querySelector("#close");
@@ -1555,16 +1632,34 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
             }
         });
         function toggleAccordion() {
-            const form = document.getElementById('commandForm');
-            const button = document.getElementById('toggleButton');
-            if (form.style.display === 'none' || form.style.display === '') {
-                form.style.display = 'flex';
-                button.textContent = 'Close';
-            } else {
-                form.style.display = 'none';
-                button.textContent = 'Add Command';
+            const content = document.querySelector('#accordion > div[style]');
+            if (content) {
+                content.style.display = content.style.display === 'flex' ? 'none' : 'flex';
             }
         }
+
+        function sendPuterRequest() {
+            const prompt = document.getElementById('puterPrompt').value;
+            const responseArea = document.getElementById('puterResponse');
+            if (!prompt) return;
+            responseArea.value = 'Loading...';
+            puter.ai.chat(prompt, { model: "gpt-5.4-nano" })
+                .then(response => {
+                    responseArea.value = response;
+                })
+                .catch(err => {
+                    responseArea.value = 'Error: ' + err.message;
+                });
+        }
+
+        // Right-click on response to copy selected text to command input
+        document.getElementById('puterResponse').addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            const selectedText = window.getSelection().toString().trim();
+            if (selectedText) {
+                document.querySelector('#commandForm input[name="command"]').value = selectedText;
+            }
+        });
 
             function toggleActions(title) {
                 const actions = document.getElementById('actions-' + title);

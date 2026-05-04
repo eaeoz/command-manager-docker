@@ -176,7 +176,251 @@
         .gear-icon:hover { opacity: 0.5; }
         .url-icon:hover { translate: 0 6px; }
         .gear-icon img, .url-icon img { width: 25px; height: 25px; }
-    </style>
+
+        #accordion {
+            margin-top: 6px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .accordion-left, .accordion-center, .accordion-right {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .accordion-left {
+            width: 25%;
+            margin-top: 15px;
+        }
+
+        .accordion-center {
+            width: 40%;
+            align-items: center;
+        }
+
+        .accordion-right {
+            width: 25%;
+            margin-top: 15px;
+        }
+
+        #puterPrompt {
+            padding: 8px;
+            border-radius: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        #sendPuterBtn {
+            border-radius: 15px;
+            padding: 10px 15px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        #sendPuterBtn:hover {
+            background-color: #1976D2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        #puterResponse {
+            width: 100%;
+            height: 160px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #e7f3fe;
+            resize: none;
+            box-sizing: border-box;
+            user-select: text;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            opacity: 0.7;
+        }
+
+        #accordion > button#toggleButton {
+            width: 100%;
+            padding: 5px;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            text-transform: uppercase;
+            margin-bottom: 3px;
+        }
+
+        #accordion > button#toggleButton:hover {
+            background-color: #d32f2f;
+        }
+
+        #commandForm {
+            border-radius: 20px;
+            background-color: #e7f3fe;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 10px;
+            width: 100%;
+        }
+
+        #commandForm input {
+            border-radius: 10px;
+            width: 90%;
+            margin: 5px;
+            padding: 8px;
+        }
+
+        #commandForm button {
+            border-radius: 15px;
+            width: 90%;
+            padding: 10px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transform: scale(0.8);
+        }
+
+        #commandForm button:hover {
+            background-color: #45a049;
+        }
+
+        .edit-form {
+            display: none;
+            flex-direction: column;
+            padding: 4px;
+            gap: 5px;
+        }
+
+        .edit-form input {
+            padding: 3px;
+            width: 100%;
+        }
+
+        .edit-form button {
+            padding: 5px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        .edit-form button:hover {
+            background-color: #45a049;
+        }
+
+        .command-actions {
+            display: none;
+            height: 50%;
+            justify-content: space-between;
+        }
+
+        .command-actions button {
+            width: 60%;
+            background-color: #f44336;
+            color: white;
+            border: none;
+            cursor: pointer;
+            height: 100%;
+        }
+
+        .command-actions button.edit {
+            background-color: #2196F3;
+        }
+
+        button.edit {
+            transform: scale(0.8) translateX(10px);
+        }
+
+        button.delete {
+            transform: scale(0.8) translateX(-10px);
+        }
+
+        .submitButton {
+            border-bottom-left-radius: 50px;
+            border-bottom-right-radius: 50px;
+        }
+
+        #accordion {
+            margin-top: 6px;
+            width: 90%;
+            margin-left: auto;
+            margin-right: auto;
+            text-align: center;
+            margin-bottom: 5px;
+        }
+
+        .accordion-left, .accordion-center, .accordion-right {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .accordion-left { width: 25%; }
+
+        .accordion-center {
+            width: 40%;
+            align-items: center;
+        }
+
+        .accordion-right { width: 25%; }
+
+        #puterPrompt {
+            padding: 8px;
+            border-radius: 10px;
+            width: 100%;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+        }
+
+        #sendPuterBtn {
+            border-radius: 15px;
+            padding: 10px 15px;
+            background-color: #2196F3;
+            color: white;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        #sendPuterBtn:hover {
+            background-color: #1976D2;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+
+        #puterResponse {
+            width: 100%;
+            height: 160px;
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            background-color: #e7f3fe;
+            filter: blur(2px);
+            resize: none;
+            box-sizing: border-box;
+            user-select: text;
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
+
+        #puterResponse:focus { filter: blur(0); }
+     </style>
 </head>
 <body>
     <div class="quarter-circle-button" id="openFormButton">
@@ -185,7 +429,219 @@
     <h2>Command Manager</h2>
     <div class="command-container" id="commandList"></div>
 
+    <div id="accordion">
+        <button id="toggleButton" onclick="toggleAccordion()">Add Command</button>
+        <div style="display:none; flex-direction:row; gap:20px; width:100%;">
+            <div class="accordion-left">
+                <input type="text" id="puterPrompt" placeholder="Ask AI..." />
+                <button id="sendPuterBtn" onclick="sendPuterRequest()">Send to AI</button>
+            </div>
+            <div class="accordion-center">
+                <form id="commandForm" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+                <input type="text" name="title" placeholder="Command Title" required>
+                <input type="text" name="command" placeholder="Command" required>
+                <input type="text" name="url" placeholder="URL (optional)">
+                <select name="profile" id="profileSelect" required>
+                </select>
+                <button type="submit">Add Command</button>
+                </form>
+            </div>
+            <div class="accordion-right">
+                <textarea id="puterResponse" readonly placeholder="AI response will appear here..."></textarea>
+            </div>
+        </div>
+    </div>
+
+    <div id="styleModal" class="modal">
+        <div class="modal-content">
+            <span class="close" id="closeStyleModal">&times;</span>
+            <h2>Style Command</h2>
+            <input type="hidden" id="styleCommandTitle">
+            <div style="display:flex; flex-direction:column; gap:10px; text-align:left;">
+                <label>Title: <input type="text" id="styleTitle" style="padding:5px; border-radius:5px; border:1px solid #ccc;" /></label>
+                <label>Text Color: <input type="color" id="styleTextColor" value="#000000" /></label>
+                <label>Background Color: <input type="color" id="styleBgColor" value="#e2e2e2" /></label>
+                <label>Gradient Color: <input type="color" id="styleGradientColor" value="#e2e2e2" /></label>
+                <label>Font Size: <input type="number" id="styleFontSize" value="16" min="10" max="50" /></label>
+                <label>Font Type:
+                    <select id="styleFontType">
+                        <option value="Arial, sans-serif">Arial</option>
+                        <option value="Georgia, serif">Georgia</option>
+                        <option value="Courier New, monospace">Courier New</option>
+                        <option value="Verdana, sans-serif">Verdana</option>
+                    </select>
+                </label>
+                <button onclick="saveStyle()" style="padding:10px; background-color:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer;">Save Style</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://js.puter.com/v2/"></script>
     <script>
+        document.getElementById('closeStyleModal').addEventListener('click', () => {
+            document.getElementById('styleModal').style.display = 'none';
+        });
+
+        function saveStyle() {
+            const oldTitle = document.getElementById('styleCommandTitle').value;
+            const newTitle = document.getElementById('styleTitle').value;
+            const textColor = document.getElementById('styleTextColor').value;
+            const backgroundColor = document.getElementById('styleBgColor').value;
+            const gradientColor = document.getElementById('styleGradientColor').value;
+            const fontSize = document.getElementById('styleFontSize').value;
+            const fontType = document.getElementById('styleFontType').value;
+            fetch('/style', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ oldTitle, newTitle, textColor, backgroundColor, gradientColor, fontSize, fontType })
+            }).then(() => {
+                document.getElementById('styleModal').style.display = 'none';
+                location.reload();
+            });
+        }
+
+        document.getElementById('commandForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            const data = {
+                title: formData.get('title'),
+                command: formData.get('command'),
+                url: formData.get('url') || '',
+                profile: formData.get('profile')
+            };
+            fetch('/commands', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data)
+            }).then(() => location.reload());
+        });
+        function toggleAccordion() {
+            const content = document.querySelector('#accordion > div[style]');
+            if (content) {
+                content.style.display = content.style.display === 'flex' ? 'none' : 'flex';
+            }
+        }
+
+        function sendPuterRequest() {
+            const prompt = document.getElementById('puterPrompt').value;
+            const responseArea = document.getElementById('puterResponse');
+            if (!prompt) return;
+            responseArea.value = 'Loading...';
+            puter.ai.chat(prompt, { model: "gpt-5.4-nano" })
+                .then(response => {
+                    responseArea.value = response;
+                })
+                .catch(err => {
+                    responseArea.value = 'Error: ' + err.message;
+                });
+        }
+
+        // Right-click on response to copy selected text to command input
+        document.getElementById('puterResponse').addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            const selectedText = window.getSelection().toString().trim();
+            if (selectedText) {
+                document.querySelector('#commandForm input[name="command"]').value = selectedText;
+            }
+        });
+
+        function toggleActions(title) {
+            const actions = document.getElementById('actions-' + title);
+            actions.style.display = (actions.style.display === 'none' || actions.style.display === '') ? 'flex' : 'none';
+        }
+
+        function toggleEditForm(title, command, url) {
+            const form = document.getElementById('editForm-' + title);
+            const actions = document.getElementById('actions-' + title);
+            const comTitle = document.getElementById('title-' + title);
+            const editButton = document.getElementById('edit-' + title);
+            const deleteButton = document.getElementById('delete-' + title);
+            const urlTitle = document.getElementById('url-' + title);
+            if (form.style.display === 'none' || form.style.display === '') {
+                form.style.display = 'flex';
+                actions.style.display = 'none';
+                comTitle.style.display = 'none';
+                editButton.textContent = 'return';
+                deleteButton.style.display = 'none';
+                if (urlTitle) urlTitle.style.display = 'none';
+            } else {
+                form.style.display = 'none';
+                actions.style.display = 'flex';
+                comTitle.style.display = 'flex';
+                editButton.textContent = 'Edit';
+                deleteButton.style.display = 'block';
+                if (urlTitle) urlTitle.style.display = 'flex';
+            }
+        }
+
+        function submitEditForm(event, oldTitle) {
+            event.preventDefault();
+            const newTitle = document.getElementById('editTitle-' + oldTitle).value;
+            const newCommand = document.getElementById('editCommand-' + oldTitle).value;
+            const newUrl = document.getElementById('editUrl-' + oldTitle).value;
+            const newProfile = document.getElementById('editProfile-' + oldTitle).value;
+            fetch('/edit', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ oldTitle, newTitle, newCommand, newUrl, newProfile })
+            }).then(() => location.reload());
+        }
+
+        function runCommand(command, profileTitle) {
+            fetch('/profiles')
+                .then(response => response.json())
+                .then(profiles => {
+                    const selectedProfile = profiles.find(profile => profile.title === profileTitle);
+                    if (!selectedProfile) {
+                        alert('Profile "' + profileTitle + '" does not exist!');
+                        return;
+                    }
+                    fetch('/run', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ command, profileTitle })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.error) alert(data.error);
+                    })
+                    .catch(err => alert('Error: ' + err.message));
+                });
+        }
+
+        function editCommand(title) {
+            fetch('/commands')
+                .then(res => res.json())
+                .then(commands => {
+                    const cmd = commands.find(c => c.title === title);
+                    if (cmd) toggleEditForm(title, cmd.command, cmd.url);
+                });
+        }
+
+        function deleteCommand(title) {
+            if (!confirm('Delete command "' + title + '"?')) return;
+            fetch('/commands/' + encodeURIComponent(title), { method: 'DELETE' })
+                .then(() => location.reload());
+        }
+
+        function openStyleModal(event, title) {
+            event.preventDefault();
+            fetch('/commands')
+                .then(res => res.json())
+                .then(commands => {
+                    const cmd = commands.find(c => c.title === title);
+                    if (!cmd) return;
+                    document.getElementById('styleCommandTitle').value = title;
+                    document.getElementById('styleTitle').value = cmd.title || title;
+                    document.getElementById('styleTextColor').value = cmd.textColor || '#000000';
+                    document.getElementById('styleBgColor').value = cmd.backgroundColor || '#e2e2e2';
+                    document.getElementById('styleGradientColor').value = cmd.gradientColor || '#e2e2e2';
+                    document.getElementById('styleFontSize').value = cmd.fontSize || 16;
+                    document.getElementById('styleFontType').value = cmd.fontType || 'Arial, sans-serif';
+                    document.getElementById('styleModal').style.display = 'block';
+                });
+        }
+
         // Load commands and profiles
         async function loadData() {
             try {
@@ -196,8 +652,18 @@
                 const commands = await commandsRes.json();
                 const profiles = await profilesRes.json();
                 renderCommands(commands, profiles);
+                populateProfileSelect(profiles);
             } catch (err) {
                 console.error('Failed to load data:', err);
+            }
+        }
+
+        function populateProfileSelect(profiles) {
+            const select = document.getElementById('profileSelect');
+            if (select) {
+                select.innerHTML = profiles.map(profile => `
+                    <option value="${profile.title}">${profile.title}</option>
+                `).join('');
             }
         }
 
@@ -222,9 +688,18 @@
                             <img src="data/gear.png" alt="Gear">
                         </div>
                         <div class="command-actions" id="actions-${cmd.title}" style="display:none;">
-                            <button onclick="editCommand('${cmd.title}')">Edit</button>
-                            <button onclick="deleteCommand('${cmd.title}')">Delete</button>
+                            <button class="edit" onclick="editCommand('${cmd.title}')">Edit</button>
+                            <button class="delete" onclick="deleteCommand('${cmd.title}')">Delete</button>
                         </div>
+                        <form class="edit-form" id="editForm-${cmd.title}" onsubmit="submitEditForm(event, '${cmd.title}')">
+                            <input type="text" id="editTitle-${cmd.title}" value="${cmd.title}" placeholder="Title" required />
+                            <input type="text" id="editCommand-${cmd.title}" value="${cmd.command}" placeholder="Command" required />
+                            <input type="text" id="editUrl-${cmd.title}" value="${cmd.url || ''}" placeholder="URL" />
+                            <select id="editProfile-${cmd.title}">
+                                ${profiles.map(p => `<option value="${p.title}" ${p.title === cmd.profile ? 'selected' : ''}>${p.title}</option>`).join('')}
+                            </select>
+                            <button class="submitButton" type="submit">Save</button>
+                        </form>
                     </div>
                 `;
             }).join('');
