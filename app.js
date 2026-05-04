@@ -801,6 +801,14 @@ app.get('/', (req, res) => {
     margin-top: 15px;
 }
 
+.response-hint {
+    font-size: 11px;
+    color: #666;
+    margin-top: 5px;
+    text-align: center;
+    font-style: italic;
+}
+
 #puterPrompt {
     padding: 8px;
     border-radius: 10px;
@@ -1246,6 +1254,7 @@ app.get('/', (req, res) => {
                 </div>
                 <div class="accordion-right">
                     <textarea id="puterResponse" readonly placeholder="AI response will appear here..."></textarea>
+                    <div class="response-hint">Right-click selected text to copy it to Command field</div>
                 </div>
             </div>
         </div>
@@ -1643,13 +1652,17 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
             const responseArea = document.getElementById('puterResponse');
             if (!prompt) return;
             responseArea.value = 'Loading...';
-            puter.ai.chat(prompt, { model: "gpt-5.4-nano" })
-                .then(response => {
-                    responseArea.value = response;
-                })
-                .catch(err => {
-                    responseArea.value = 'Error: ' + err.message;
-                });
+            if (!puter.auth.isSignedIn()) {
+                puter.auth.signIn().then(() => {
+                    puter.ai.chat(prompt, { model: "gpt-5.4-nano" })
+                        .then(response => { responseArea.value = response; })
+                        .catch(err => { responseArea.value = 'Error: ' + err.message; });
+                }).catch(err => { responseArea.value = 'Auth cancelled: ' + err.message; });
+            } else {
+                puter.ai.chat(prompt, { model: "gpt-5.4-nano" })
+                    .then(response => { responseArea.value = response; })
+                    .catch(err => { responseArea.value = 'Error: ' + err.message; });
+            }
         }
 
         // Right-click on response to copy selected text to command input
