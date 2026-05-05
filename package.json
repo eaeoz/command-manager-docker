@@ -5,7 +5,7 @@
   "main": "src/main/main.js",
   "scripts": {
     "start": "nodemon app.js",
-    "electron": "electron .",
+    "electron": "electron.cmd .",
     "build": "electron-builder --win --x64 --publish never",
     "build:dir": "electron-builder --win --x64 --dir --publish never"
   },
