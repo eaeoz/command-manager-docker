@@ -1052,12 +1052,12 @@ app.get('/', (req, res) => {
                 transition-delay: 0.3s;
               }
 
-              navx {
-                position: fixed;
-                bottom: 40px;
-                left: 0;
-                z-index: 100;
-              }
+               navx {
+                 position: fixed;
+                 bottom: 40px;
+                 left: 0;
+                 z-index: 0;
+               }
               
               navx ul {
                 list-style-type: none;
