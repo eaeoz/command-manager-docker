@@ -1729,17 +1729,9 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
             const responseArea = document.getElementById('puterResponse');
             if (!prompt.value) return;
             responseArea.value = 'Loading...';
-            if (!puter.auth.isSignedIn()) {
-                puter.auth.signIn().then(() => {
-                    puter.ai.chat(prompt.value, { model: "gpt-5.4-nano" })
-                        .then(response => { responseArea.value = response; prompt.value = ''; })
-                        .catch(err => { responseArea.value = 'Error: ' + err.message; });
-                }).catch(err => { responseArea.value = 'Auth cancelled: ' + err.message; });
-            } else {
-                puter.ai.chat(prompt.value, { model: "gpt-5.4-nano" })
-                    .then(response => { responseArea.value = response; prompt.value = ''; })
-                    .catch(err => { responseArea.value = 'Error: ' + err.message; });
-            }
+            puter.ai.chat(prompt.value, { model: "gpt-5.4-nano" })
+                .then(response => { responseArea.value = response; prompt.value = ''; })
+                .catch(err => { responseArea.value = 'Error: ' + err.message; });
         }
 
         // Right-click on response to copy selected text to command input
