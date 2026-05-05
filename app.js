@@ -1256,7 +1256,7 @@ app.get('/', (req, res) => {
         </div>
 
         <div id="accordion" style="position:relative; z-index:100; width:90%; margin:0 auto;">
-            <button id="toggleButton" onclick="toggleAccordion()">Add Command</button>
+            <button id="toggleButton" onclick="toggleAccordion()" style="background-color:#4CAF50; color:white; border:none; padding:10px 20px; border-radius:15px; cursor:pointer;">Add Command</button>
             <div id="accordionContent" style="display:none; width:100%;">
                 <div style="display:flex; gap:20px; width:100%;">
                     <div style="width:25%; margin-top:15px;">
@@ -1686,6 +1686,7 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                 const isVisible = content.style.display === 'flex';
                 content.style.display = isVisible ? 'none' : 'flex';
                 button.textContent = isVisible ? 'Add Command' : 'CLOSE';
+                button.style.backgroundColor = isVisible ? '#4CAF50' : '#f44336';
                 if (!isVisible) {
                     setTimeout(() => document.getElementById('puterPrompt').focus(), 100);
                 }
