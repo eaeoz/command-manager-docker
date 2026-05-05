@@ -1251,8 +1251,9 @@ app.get('/', (req, res) => {
                 <div style="display:flex; gap:20px; width:100%;">
                     <div style="width:25%; margin-top:15px;">
                         <form onsubmit="event.preventDefault(); sendPuterRequest();" style="margin:0; padding:0;">
-                            <textarea id="puterPrompt" placeholder="Ask AI..." rows="5" style="width:100%; padding:8px; border-radius:10px; border:1px solid #ccc; cursor:text; resize:vertical; box-sizing:border-box; font-family:Arial,sans-serif; font-size:14px;"></textarea>
-                            <button id="sendPuterBtn" onclick="sendPuterRequest()" style="width:100%; margin-top:10px; padding:10px 15px; background-color:#2196F3; color:white; border:none; border-radius:15px; cursor:pointer;">Send to AI</button>
+                            <textarea id="puterPrompt" placeholder="Ask AI..." rows="5" style="width:100%; padding:8px; border-radius:10px; border:1px solid #ccc; cursor:text; resize:vertical; box-sizing:border-box; font-family:Arial,sans-serif; font-size:14px;" onkeydown="if(event.ctrlKey && event.key==='Enter'){event.preventDefault();sendPuterRequest();}"></textarea>
+                             <button id="sendPuterBtn" onclick="sendPuterRequest()" style="width:100%; margin-top:10px; padding:10px 15px; background-color:#2196F3; color:white; border:none; border-radius:15px; cursor:pointer;">Send to AI</button>
+                            <div style="text-align:center; font-size:11px; color:#888; margin-top:5px;">Hint: Ctrl+Enter to confirm</div>
                         </form>
                     </div>
                     <div style="width:40%; display:flex; justify-content:center;">
