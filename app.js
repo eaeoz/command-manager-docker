@@ -1660,9 +1660,11 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
         });
         function toggleAccordion() {
             const content = document.getElementById('accordionContent') || document.querySelector('#accordion > div[style]');
+            const button = document.getElementById('toggleButton');
             if (content) {
                 const isVisible = content.style.display === 'flex';
                 content.style.display = isVisible ? 'none' : 'flex';
+                button.textContent = isVisible ? 'Add Command' : 'CLOSE';
                 if (!isVisible) {
                     setTimeout(() => document.getElementById('puterPrompt').focus(), 100);
                 }
