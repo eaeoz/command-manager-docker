@@ -9,11 +9,18 @@
 
 ## 📥 Downloads
 
-| Type | Platform | Download |
-|------|----------|----------|
-| **Installer** | Windows x64 | [Command Manager Setup 1.0.4.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.4/Command.Manager.Setup.1.0.4.exe) |
-| **Portable** | Windows x64 | [Command Manager Portable 1.0.4.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.4/Command.Manager_portable_1.0.4.exe) |
-| **Docker** | Cross-platform | `docker pull eaeoz/command-manager-docker:3` |
+
+**Installer**
+
+- Windows x64 | [Command Manager Setup 1.0.4.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.4/Command.Manager.Setup.1.0.4.exe)
+
+**Portable**
+
+- Windows x64 | [Command Manager Portable 1.0.4.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.4/Command.Manager_portable_1.0.4.exe)
+
+**Docker**
+
+- Cross-platform | `docker pull eaeoz/command-manager-docker:3`
 
 ---
 
@@ -139,11 +146,10 @@ npm run build
 
 The app uses a `config/` directory with three files:
 
-| File | Purpose |
-|------|---------|
-| `.env` | Environment variables (PORT, timeouts, file paths) |
-| `commands.json` | Your command components and their settings |
-| `profiles.json` | SSH host profiles and credentials |
+
+- `.env` | Environment variables (PORT, timeouts, file paths)
+- `commands.json` | Your command components and their settings
+- `profiles.json` | SSH host profiles and credentials
 
 ---
 
@@ -158,4 +164,3 @@ ISC License - Copyright © 2024 Sedat Ergoz
 - **GitHub**: [eaeoz/command-manager-docker](https://github.com/eaeoz/command-manager-docker)
 - **Docker Hub**: [eaeoz/command-manager-docker](https://hub.docker.com/r/eaeoz/command-manager-docker)
 - **Issues**: [Report a bug](https://github.com/eaeoz/command-manager-docker/issues)
-
