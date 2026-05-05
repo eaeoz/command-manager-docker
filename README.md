@@ -11,15 +11,16 @@
 
 | Type | Platform | Download |
 |------|----------|----------|
-| **Installer** | Windows x64 | [Command Manager Setup 1.0.2.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.2/Command.Manager.Setup.1.0.2.exe) |
-| **Portable** | Windows x64 | [Command Manager Portable 1.0.2.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.2/Command.Manager_portable_1.0.2.exe) |
-| **Docker** | Cross-platform | `docker pull eaeoz/command-manager-docker:2` |
+| **Installer** | Windows x64 | [Command Manager Setup 1.0.3.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.3/Command.Manager.Setup.1.0.3.exe) |
+| **Portable** | Windows x64 | [Command Manager Portable 1.0.3.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.3/Command.Manager_portable_1.0.3.exe) |
+| **Docker** | Cross-platform | `docker pull eaeoz/command-manager-docker:3` |
 
 ---
 
 ## ✨ Features
 
 - **🔐 SSH Profile Management** - Create and manage multiple SSH host profiles
+- **🤖 AI-Powered Assistance** - Leverage AI to optimize command execution and get intelligent suggestions for your SSH workflows
 - **🎨 Custom GUI Components** - Design command buttons with personalized styling
 - **🖱️ Right-Click Styling** - Edit component style, colors, fonts, and appearance with a simple right-click
 - **💾 Backup & Restore** - Export and import your configuration to keep your setup safe
@@ -35,12 +36,12 @@
 ### Windows (Recommended)
 
 **Option 1: Installer**
-1. Download `Command Manager Setup 1.0.2.exe`
+1. Download `Command Manager Setup 1.0.3.exe`
 2. Run the installer and follow the setup wizard
 3. Launch from Start Menu
 
 **Option 2: Portable**
-1. Download `Command Manager_portable_1.0.2.exe`
+1. Download `Command Manager_portable_1.0.3.exe`
 2. Place in any folder
 3. Run directly - no installation needed
 
@@ -56,7 +57,7 @@
 version: "3"
 services:
   app:
-    image: eaeoz/command-manager-docker:2
+    image: eaeoz/command-manager-docker:3
     ports:
       - "3000:3000"
     volumes:
@@ -75,7 +76,7 @@ docker run -d \
   -p 3000:3000 \
   -v $(pwd)/config:/app/config \
   --name command-manager \
-  eaeoz/command-manager-docker:2
+  eaeoz/command-manager-docker:3
 ```
 
 Access at: `http://localhost:3000`
