@@ -1313,6 +1313,17 @@ app.get('/', (req, res) => {
         <script src="/data/js/Sortable.min.js"></script>
         <script src="https://js.puter.com/v2/"></script>
         <script>
+        function showNotification(msg, type) {
+            type = type || 'success';
+            var d = document.getElementById('ntf');
+            if (d) d.remove();
+            d = document.createElement('div');
+            d.id = 'ntf';
+            d.textContent = msg;
+            d.style.cssText = 'position:fixed;top:20px;right:20px;z-index:9999;padding:12px 20px;border-radius:8px;color:#fff;font-weight:500;font-family:Arial,sans-serif;background:' + (type === 'success' ? '#4CAF50' : '#f44336') + ';box-shadow:0 4px 12px rgba(0,0,0,0.3);transition:opacity 0.3s;';
+            document.body.appendChild(d);
+            setTimeout(function() { d.style.opacity = '0'; setTimeout(function() { d.remove(); }, 300); }, 2500);
+        }
         const open = document.querySelector("#open")
 const close = document.querySelector("#close");
 const container = document.querySelector(".containerx");
@@ -1656,8 +1667,8 @@ const bg=document.querySelector('.command-container')
 // default load starts (percentage) 0
 let load = 0
 
-// repeat blurring function every 30ms
-let int = setInterval(blurring, 2)
+// repeat blurring function every 1ms (complete in 100ms instead of 200ms)
+let int = setInterval(blurring, 1)
 
 function blurring(){
     // loadi arttir 100 olana kadar ve setInterval dongusunu sifirla
@@ -1818,15 +1829,15 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                     submitButton.disabled = false; // Re-enable the button after response
 
                     if (data.success) {
-                        alert('Command added successfully!');
-                        window.location.reload();
+                        showNotification('Command added successfully!');
+                        setTimeout(function() { window.location.reload(); }, 500);
                     } else {
-                        alert('Failed to add command: ' + data.error);
+                        showNotification('Failed to add command: ' + data.error, 'error');
                     }
                 })
                 .catch(error => {
-                    submitButton.disabled = false; // Re-enable the button on error
-                    alert('An error occurred: ' + error.message);
+                    submitButton.disabled = false;
+                    showNotification('An error occurred: ' + error.message, 'error');
                 });
             });
 
@@ -1841,9 +1852,8 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                         const selectedProfile = profiles.find(profile => profile.title === profileTitle);
             
                         if (!selectedProfile) {
-                            // Show an alert if the profile is missing
-                            alert(\`Profile "\${profileTitle}" does not exist in profiles.json. Please update the profile data.\`);
-                            return; // Abort the command execution if profile is not found
+                            showNotification('Profile "' + profileTitle + '" does not exist in profiles.json. Please update the profile data.', 'error');
+                            return;
                         }
             
                         // Proceed with command execution if profile exists
