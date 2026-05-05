@@ -1279,7 +1279,7 @@ app.get('/', (req, res) => {
                         <button type="submit" style="width:90%; padding:10px 15px; background-color:#4CAF50; color:white; border:none; border-radius:15px; cursor:pointer; transform:scale(0.8);">Add Command</button>
                         </form>
                     </div>
-                    <div style="width:25%; margin-top:15px;">
+                    <div style="width:35%; margin-top:15px;">
                             <textarea id="puterResponse" readonly placeholder="AI response will appear here..." style="width:100%; height:220px; padding:10px; border-radius:5px; border:1px solid #ccc; background-color:#e7f3fe; resize:none; opacity:0.7; cursor:default;"></textarea>
                         <div class="response-hint">Right-click selected text to copy it to Command field</div>
                     </div>
