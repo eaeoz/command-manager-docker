@@ -607,6 +607,20 @@ app.get('/', (req, res) => {
     to { opacity: 1; transform: translateY(0); }
 }
 
+#accordionContent {
+    overflow: hidden;
+    transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease;
+    max-height: 0;
+    opacity: 0;
+    padding: 0;
+}
+
+#accordionContent.show {
+    max-height: 500px;
+    opacity: 1;
+    padding: 10px 0;
+}
+
 .modal-content h2 {
     background-color: transparent;
     color: #333;
@@ -1257,7 +1271,7 @@ app.get('/', (req, res) => {
 
         <div id="accordion" style="position:relative; z-index:100; width:90%; margin:0 auto;">
             <button id="toggleButton" onclick="toggleAccordion()" style="background-color:#4CAF50; color:white; border:none; padding:10px 20px; border-radius:15px; cursor:pointer;">Add Command</button>
-            <div id="accordionContent" style="display:none; width:100%;">
+            <div id="accordionContent" class="" style="width:100%;">
                 <div style="display:flex; gap:20px; width:100%;">
                     <div style="width:25%; margin-top:15px;">
                         <form onsubmit="event.preventDefault(); sendPuterRequest();" style="margin:0; padding:0;">
@@ -1683,8 +1697,14 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
             const content = document.getElementById('accordionContent') || document.querySelector('#accordion > div[style]');
             const button = document.getElementById('toggleButton');
             if (content) {
-                const isVisible = content.style.display === 'flex';
-                content.style.display = isVisible ? 'none' : 'flex';
+                const isVisible = content.classList.contains('show');
+                if (isVisible) {
+                    content.classList.remove('show');
+                    setTimeout(() => { content.style.display = 'none'; }, 400);
+                } else {
+                    content.style.display = 'flex';
+                    setTimeout(() => { content.classList.add('show'); }, 10);
+                }
                 button.textContent = isVisible ? 'Add Command' : 'CLOSE';
                 button.style.backgroundColor = isVisible ? '#4CAF50' : '#f44336';
                 if (!isVisible) {
