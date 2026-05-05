@@ -1178,8 +1178,18 @@ app.get('/', (req, res) => {
                         <option value="Courier New, monospace">Courier New</option>
                         <option value="Verdana, sans-serif">Verdana</option>
                         <option value="Times New Roman, serif">Times New Roman</option>
+                        <option value="Tahoma, sans-serif">Tahoma</option>
+                        <option value="Trebuchet MS, sans-serif">Trebuchet MS</option>
+                        <option value="Impact, sans-serif">Impact</option>
+                        <option value="Comic Sans MS, cursive">Comic Sans MS</option>
+                        <option value="Palatino, serif">Palatino</option>
                     </select>
                 </label>
+                <div style="display:flex; gap:15px;">
+                    <label><input type="checkbox" id="styleBold" /> Bold</label>
+                    <label><input type="checkbox" id="styleItalic" /> Italic</label>
+                    <label><input type="checkbox" id="styleUnderline" /> Underline</label>
+                </div>
                 <button onclick="saveStyle()" style="padding:10px; background-color:#4CAF50; color:white; border:none; border-radius:5px; cursor:pointer;">Save Style</button>
             </div>
         </div>
@@ -1220,7 +1230,7 @@ app.get('/', (req, res) => {
                     <img src="/data/url.png" alt="Link Icon">
                 </div>
                 ` : ''}
-                    <button class="command-title-button" id="title-${cmd.title}" onclick="runCommand('${cmd.command}', '${cmd.profile}')" style="color:${cmd.textColor}; font-size:${cmd.fontSize}px; font-family:${cmd.fontType}; ${bgStyle}">
+                    <button class="command-title-button" id="title-${cmd.title}" onclick="runCommand('${cmd.command}', '${cmd.profile}')" style="color:${cmd.textColor}; font-size:${cmd.fontSize}px; font-family:${cmd.fontType}; font-weight:${cmd.fontWeight || 'normal'}; font-style:${cmd.fontStyle || 'normal'}; text-decoration:${cmd.textDecoration || 'none'}; ${bgStyle}">
                         ${cmd.title}
                     </button>
                     <div class="gear-icon" onclick="toggleActions('${cmd.title}')">
@@ -1372,11 +1382,13 @@ close.addEventListener('click', ()=>{
         openProfileButton.addEventListener('click', () => {
             loadProfilesList(); // Load profiles when opening the modal
             profileModal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         });
         
         // Close the modal
         closeProfileModal.addEventListener('click', () => {
             profileModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         });
 
         // Style Modal functionality
@@ -1385,6 +1397,7 @@ close.addEventListener('click', ()=>{
 
         closeStyleModal.addEventListener('click', () => {
             styleModal.style.display = 'none';
+            document.body.style.overflow = 'auto';
         });
 
         // Open style modal on right-click
@@ -1403,6 +1416,9 @@ close.addEventListener('click', ()=>{
                     document.getElementById('styleGradientColor').value = cmd.gradientColor || '#e2e2e2';
                     document.getElementById('styleFontSize').value = cmd.fontSize || 16;
                     document.getElementById('styleFontType').value = cmd.fontType || 'Arial, sans-serif';
+                    document.getElementById('styleBold').checked = cmd.fontWeight === 'bold';
+                    document.getElementById('styleItalic').checked = cmd.fontStyle === 'italic';
+                    document.getElementById('styleUnderline').checked = cmd.textDecoration === 'underline';
 
                     styleModal.style.display = 'block';
                 });
@@ -1417,11 +1433,14 @@ close.addEventListener('click', ()=>{
             const gradientColor = document.getElementById('styleGradientColor').value;
             const fontSize = document.getElementById('styleFontSize').value;
             const fontType = document.getElementById('styleFontType').value;
+            const fontWeight = document.getElementById('styleBold').checked ? 'bold' : 'normal';
+            const fontStyle = document.getElementById('styleItalic').checked ? 'italic' : 'normal';
+            const textDecoration = document.getElementById('styleUnderline').checked ? 'underline' : 'none';
 
             fetch('/style', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ oldTitle, newTitle, textColor, backgroundColor, gradientColor, fontSize, fontType })
+                body: JSON.stringify({ oldTitle, newTitle, textColor, backgroundColor, gradientColor, fontSize, fontType, fontWeight, fontStyle, textDecoration })
             }).then(() => {
                 styleModal.style.display = 'none';
                 location.reload();
@@ -1470,9 +1489,11 @@ close.addEventListener('click', ()=>{
         window.onclick = (event) => {
             if (event.target === profileModal) {
                 profileModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
             if (event.target === styleModal) {
                 styleModal.style.display = 'none';
+                document.body.style.overflow = 'auto';
             }
         };
         
@@ -2053,7 +2074,7 @@ app.post('/delete', (req, res) => {
 
 // Update command style
 app.post('/style', (req, res) => {
-    const { oldTitle, newTitle, textColor, backgroundColor, gradientColor, fontSize, fontType } = req.body;
+    const { oldTitle, newTitle, textColor, backgroundColor, gradientColor, fontSize, fontType, fontWeight, fontStyle, textDecoration } = req.body;
     const commands = loadCommands();
     const cmdIndex = commands.findIndex(cmd => cmd.title === oldTitle);
 
@@ -2068,7 +2089,10 @@ app.post('/style', (req, res) => {
         backgroundColor,
         gradientColor,
         fontSize,
-        fontType
+        fontType,
+        fontWeight,
+        fontStyle,
+        textDecoration
     };
 
     saveCommands(commands);
