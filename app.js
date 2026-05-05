@@ -1670,19 +1670,19 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
         }
 
         function sendPuterRequest() {
-            const prompt = document.getElementById('puterPrompt').value;
+            const prompt = document.getElementById('puterPrompt');
             const responseArea = document.getElementById('puterResponse');
-            if (!prompt) return;
+            if (!prompt.value) return;
             responseArea.value = 'Loading...';
             if (!puter.auth.isSignedIn()) {
                 puter.auth.signIn().then(() => {
-                    puter.ai.chat(prompt, { model: "gpt-5.4-nano" })
-                        .then(response => { responseArea.value = response; })
+                    puter.ai.chat(prompt.value, { model: "gpt-5.4-nano" })
+                        .then(response => { responseArea.value = response; prompt.value = ''; })
                         .catch(err => { responseArea.value = 'Error: ' + err.message; });
                 }).catch(err => { responseArea.value = 'Auth cancelled: ' + err.message; });
             } else {
-                puter.ai.chat(prompt, { model: "gpt-5.4-nano" })
-                    .then(response => { responseArea.value = response; })
+                puter.ai.chat(prompt.value, { model: "gpt-5.4-nano" })
+                    .then(response => { responseArea.value = response; prompt.value = ''; })
                     .catch(err => { responseArea.value = 'Error: ' + err.message; });
             }
         }
