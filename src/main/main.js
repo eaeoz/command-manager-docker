@@ -1,6 +1,7 @@
-const { app, BrowserWindow, Menu, shell, ipcMain } = require('electron');
+const { app, BrowserWindow, Menu, shell, ipcMain, session } = require('electron');
 const path = require('path');
 const { spawn } = require('child_process');
+const fs = require('fs');
 
 let mainWindow;
 let serverProcess;
@@ -73,6 +74,44 @@ function createWindow() {
 
     const appPath = getAppPath();
 
+    const cookieFile = path.join(appPath, 'config', 'puter-cookies.json');
+    const ses = session.defaultSession;
+
+    try {
+        if (fs.existsSync(cookieFile)) {
+            const cookies = JSON.parse(fs.readFileSync(cookieFile, 'utf8'));
+            for (const cookie of cookies) {
+                let cookieUrl = (cookie.secure ? 'https://' : 'http://') + cookie.domain.replace(/^\./, '') + cookie.path;
+                ses.cookies.set({
+                    url: cookieUrl,
+                    name: cookie.name,
+                    value: cookie.value,
+                    domain: cookie.domain,
+                    path: cookie.path,
+                    secure: cookie.secure,
+                    httpOnly: cookie.httpOnly,
+                    expirationDate: cookie.expirationDate
+                }).catch(err => console.error('Failed to set cookie:', err));
+            }
+        }
+    } catch (e) {
+        console.error('Failed to load cookies:', e.message);
+    }
+
+    ses.cookies.on('changed', () => {
+        ses.cookies.get({ domain: '.puter.com' }).then(cookies => {
+            try {
+                const configDir = path.join(appPath, 'config');
+                if (!fs.existsSync(configDir)) {
+                    fs.mkdirSync(configDir, { recursive: true });
+                }
+                fs.writeFileSync(cookieFile, JSON.stringify(cookies, null, 2));
+            } catch (e) {
+                console.error('Failed to save cookies:', e.message);
+            }
+        }).catch(err => console.error('Failed to get cookies:', err));
+    });
+
     mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
@@ -95,12 +134,15 @@ function createWindow() {
     loadWithRetry(mainWindow, 'http://localhost:3000');
 
     mainWindow.webContents.setWindowOpenHandler(({ url }) => {
+        if (url.includes('puter.com') || url.includes('localhost:3000')) {
+            return { action: 'allow' };
+        }
         shell.openExternal(url);
         return { action: 'deny' };
     });
 
     mainWindow.webContents.on('will-navigate', (event, url) => {
-        if (!url.startsWith('http://localhost:3000')) {
+        if (!url.startsWith('http://localhost:3000') && !url.includes('puter.com')) {
             event.preventDefault();
             shell.openExternal(url);
         }
