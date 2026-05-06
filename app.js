@@ -1,4 +1,4 @@
-﻿const fs = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 // Determine config directory (works for Electron main, Electron child, and plain Node.js)
@@ -183,6 +183,7 @@ app.get('/', (req, res) => {
                 height: 100vh;
                 margin: 0;
                 background-color: #000000;
+                overflow: hidden;
             }
 
             h2 {
