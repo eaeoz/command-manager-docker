@@ -914,11 +914,15 @@ app.get('/', (req, res) => {
                 width: 100%;
             }
 
-            #commandForm input {
+            #commandForm input, #commandForm select {
                 border-radius: 10px;
                 width: 90%;
                 margin: 5px;
                 padding: 8px;
+                pointer-events: auto !important;
+                cursor: text !important;
+                position: relative;
+                z-index: 100;
             }
 
             #commandForm button {
@@ -1364,17 +1368,17 @@ close.addEventListener('click', ()=>{
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    alert('Profile added successfully!');
+                    showNotification('Profile added successfully!');
                     loadProfilesList(); // Refresh the profile list
                     document.getElementById('addProfileForm').reset(); // Reset the form
-                    location.reload();
+                    setTimeout(function() { window.location.reload(); }, 500);
                 } else {
-                    alert('Failed to add profile.');
+                    showNotification('Failed to add profile.', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error adding profile:', error);
-                alert('An error occurred while adding the profile.');
+                showNotification('An error occurred while adding the profile.', 'error');
             });
         });
         
@@ -1602,18 +1606,18 @@ close.addEventListener('click', ()=>{
             .then(data => {
                 // console.log('Update response:', data); // Log the response
                 if (data.success) {
-                    alert('Profile updated successfully!');
+                    showNotification('Profile updated successfully!');
                     loadProfilesList(); // Refresh the profile list
                     this.reset(); // Reset the form fields
                     this.style.display = 'none'; // Hide the form
-                    location.reload();
+                    setTimeout(function() { window.location.reload(); }, 500);
                 } else {
-                    alert('Failed to update profile.');
+                    showNotification('Failed to update profile.', 'error');
                 }
             })
             .catch(error => {
                 console.error('Error updating profile:', error);
-                alert('An error occurred while updating the profile.');
+                showNotification('An error occurred while updating the profile.', 'error');
             });
         });
         
@@ -1639,12 +1643,13 @@ close.addEventListener('click', ()=>{
                 return response.json();
             })
             .then(data => {
-                alert(\`Profile "\${title}" deleted successfully.\`);
+                showNotification(\`Profile "\${title}" deleted successfully.\`);
                 loadProfilesList(); // Refresh the list in the modal
-                location.reload();
+                setTimeout(function() { window.location.reload(); }, 500);
             })
             .catch(error => {
-                alert(error.message); // Show the error
+                console.error('Error:', error);
+                showNotification(error.message, 'error');
             });
         }
         

@@ -297,11 +297,15 @@
             width: 100%;
         }
 
-        #commandForm input {
+        #commandForm input, #commandForm select {
             border-radius: 10px;
             width: 90%;
             margin: 5px;
             padding: 8px;
+            pointer-events: auto !important;
+            cursor: text !important;
+            position: relative;
+            z-index: 100;
         }
 
         #commandForm button {

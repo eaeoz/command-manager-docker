@@ -1,6 +1,6 @@
 {
   "name": "command-manager",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "SSH Command Manager with GUI",
   "main": "src/main/main.js",
   "scripts": {
@@ -10,7 +10,9 @@
     "build:dir": "electron-builder --win --x64 --dir --publish never"
   },
   "pkg": {
-    "targets": ["node18-win-x64"]
+    "targets": [
+      "node18-win-x64"
+    ]
   },
   "keywords": [],
   "author": {
@@ -47,11 +49,15 @@
       "target": [
         {
           "target": "nsis",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         },
         {
           "target": "portable",
-          "arch": ["x64"]
+          "arch": [
+            "x64"
+          ]
         }
       ],
       "icon": "data/gear.ico",
