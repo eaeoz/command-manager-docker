@@ -1073,7 +1073,13 @@ app.get('/', (req, res) => {
 
               .containerx.show-nav + navx li {
                 transform: translateX(0);
-                transition-delay: 0.3s;
+              }
+              .containerx.show-nav + navx li:nth-child(1) { transition-delay: 0.3s; }
+              .containerx.show-nav + navx li:nth-child(2) { transition-delay: 0.4s; }
+              .containerx.show-nav + navx li:nth-child(3) { transition-delay: 0.5s; }
+
+              .containerx.show-nav + navx li:hover {
+                transform: translateX(15px) scale(1.05);
               }
 
                navx {
@@ -1081,6 +1087,7 @@ app.get('/', (req, res) => {
                  bottom: 40px;
                  left: 0;
                  z-index: 0;
+                 pointer-events: none;
                }
               
               navx ul {
@@ -1089,44 +1096,50 @@ app.get('/', (req, res) => {
               }
               
               navx ul li {
+                pointer-events: auto;
                 text-transform: uppercase;
-                color: #fff;
-                margin: 40px 0;
-                transform: translateX(-100%);
-                transition: transform 0.4s ease-in;
-                cursor: pointer; /* Changes the mouse pointer to a hand when hovering */
-                list-style: none; /* Optional: removes bullet points */
-                padding: 10px; /* Optional: adds padding for better click area */
+                margin: 20px 0;
+                transform: translateX(-150%);
+                transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s, box-shadow 0.3s;
+                padding: 12px 25px;
+                background: rgba(255, 255, 255, 0.1);
+                backdrop-filter: blur(10px);
+                border: 1px solid rgba(255, 255, 255, 0.2);
+                border-radius: 30px;
+                width: max-content;
+                box-shadow: 0 4px 15px rgba(0,0,0,0.2);
               }
 
               navx ul li:hover {
-                background-color: #8B0000; /* Optional: adds a hover effect */
+                background: rgba(255, 255, 255, 0.25);
+                box-shadow: 0 8px 25px rgba(0,0,0,0.3);
               }
               
               navx ul li i {
-                font-size: 20px;
-                margin-right: 10px;
+                font-size: 24px;
+                transition: transform 0.3s ease;
+              }
+
+              navx ul li:hover i {
+                transform: scale(1.2);
               }
               
-              navx ul li + li {
-                margin-left: 15px;
-                transform: translateX(-150%);
-              }
-              
-              navx ul li + li + li {
-                margin-left: 30px;
-                transform: translateX(-200px);
-              }
-              
-              navx a{
+              navx ul li:nth-child(1) i { color: #ffffff; } /* Github */
+              navx ul li:nth-child(2) i { color: #fbbc05; } /* Contact */
+              navx ul li:nth-child(3) i { color: #2496ed; } /* Docker */
+
+              navx a {
                 color: #fafafa;
                 text-decoration: none;
-                transition: all 0.5s;
+                font-weight: 600;
+                letter-spacing: 1.5px;
+                display: flex;
+                align-items: center;
+                transition: color 0.3s;
               }
               
-              navx a:hover {
-                color: #ff7979;
-                font-weight: bold;
+              navx li:hover a {
+                color: #ffffff;
               }
         </style>
         <link rel="stylesheet" type="text/css" href="/data/css/all.min.css">
@@ -1314,9 +1327,9 @@ app.get('/', (req, res) => {
         <navx>
         <ul>
         
-          <li><a href="https://github.com/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-github"></i> Github</a></li>
-          <li><a href="https://hub.docker.com/r/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-docker"></i> DockerHub</a></li>
-          <li><a href="https://sedat.netlify.app/contact" target="_blank"><i class="fas fa-envelope"></i> Contact</a></li>
+          <li><a href="https://github.com/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-github"></i>&nbsp;Github</a></li>
+          <li><a href="https://sedat.netlify.app/contact" target="_blank"><i class="fas fa-envelope"></i>&nbsp;Contact</a></li>
+          <li><a href="https://hub.docker.com/r/eaeoz/command-manager-docker" target="_blank"><i class="fa-brands fa-docker"></i>&nbsp;DockerHub</a></li>
         </ul>
       </navx>
         <script src="/data/js/all.min.js"></script>
