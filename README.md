@@ -29,7 +29,7 @@
 
 **Docker**
 
-- Cross-platform | `docker pull eaeoz/command-manager-docker:3`
+- Cross-platform | `docker pull eaeoz/command-manager-docker:5`
 
 ---
 
@@ -73,7 +73,7 @@
 version: "3"
 services:
   app:
-    image: eaeoz/command-manager-docker:3
+    image: eaeoz/command-manager-docker:5
     ports:
       - "3000:3000"
     volumes:
@@ -92,7 +92,7 @@ docker run -d \
   -p 3000:3000 \
   -v $(pwd)/config:/app/config \
   --name command-manager \
-  eaeoz/command-manager-docker:3
+  eaeoz/command-manager-docker:5
 ```
 
 Access at: `http://localhost:3000`
