@@ -250,9 +250,14 @@ app.get('/', (req, res) => {
                 top: 0;
                 width: 100%;
                 height: 100%;
-                overflow: auto;
+                overflow: hidden;
                 background-color: rgba(0, 0, 0, 0.5);
                 backdrop-filter: blur(2px);
+            }
+
+            .modal::-webkit-scrollbar,
+            .modal-content::-webkit-scrollbar {
+                display: none;
             }
 
             #styleModal {
