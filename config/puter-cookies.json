@@ -1,1 +1,110 @@
-[]
+[
+  {
+    "name": "__stripe_mid",
+    "value": "cf1460db-c6d8-409f-b2bb-19ad079762b1d292f2",
+    "domain": ".puter.com",
+    "hostOnly": false,
+    "path": "/",
+    "secure": true,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1809549146,
+    "sameSite": "lax"
+  },
+  {
+    "name": "AWSALB",
+    "value": "sUr7k+PKRHKiG8Gojx6GJAc87dzjT57oEpjiBAfbayaoUAfSfpYNI6fqxoQEXttOW4bKUQF95UCZlSBJpfaQXsjV3O11IQumQNJj7ELEaEMhTrf99nxMODfcBssi",
+    "domain": "puter.com",
+    "hostOnly": true,
+    "path": "/",
+    "secure": false,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778617956.741712,
+    "sameSite": "unspecified"
+  },
+  {
+    "name": "AWSALBCORS",
+    "value": "sUr7k+PKRHKiG8Gojx6GJAc87dzjT57oEpjiBAfbayaoUAfSfpYNI6fqxoQEXttOW4bKUQF95UCZlSBJpfaQXsjV3O11IQumQNJj7ELEaEMhTrf99nxMODfcBssi",
+    "domain": "puter.com",
+    "hostOnly": true,
+    "path": "/",
+    "secure": true,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778617956.741785,
+    "sameSite": "no_restriction"
+  },
+  {
+    "name": "AWSALB",
+    "value": "J8fBR4bnF3JP70oGdeljjUgowjXLjEsFAe08XsEJVzGLGAdEGf7ZOE+FKuZ0Ioh7FSABxr675RBGPRqRfarqwBmSAuNVb1K6c6Wa9DAyk9Gk35K3xPfl8SYDZ5imH2VfGiuIpPpADq93DU0AUY4NP997rdnlOXWNYowOAtr05RWOn5TwWUCPhu1DlEIxXw==",
+    "domain": "api.puter.com",
+    "hostOnly": true,
+    "path": "/",
+    "secure": false,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778617957.017389,
+    "sameSite": "unspecified"
+  },
+  {
+    "name": "AWSALB",
+    "value": "sUr7k+PKRHKiG8Gojx6GJAc87dzjT57oEpjiBAfbayaoUAfSfpYNI6fqxoQEXttOW4bKUQF95UCZlSBJpfaQXsjV3O11IQumQNJj7ELEaEMhTrf99nxMODfcBssi",
+    "domain": ".puter.com",
+    "hostOnly": false,
+    "path": "/",
+    "secure": false,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778617956.741712,
+    "sameSite": "lax"
+  },
+  {
+    "name": "AWSALBCORS",
+    "value": "sUr7k+PKRHKiG8Gojx6GJAc87dzjT57oEpjiBAfbayaoUAfSfpYNI6fqxoQEXttOW4bKUQF95UCZlSBJpfaQXsjV3O11IQumQNJj7ELEaEMhTrf99nxMODfcBssi",
+    "domain": ".puter.com",
+    "hostOnly": false,
+    "path": "/",
+    "secure": true,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778617956.741785,
+    "sameSite": "lax"
+  },
+  {
+    "name": "AWSALB",
+    "value": "J8fBR4bnF3JP70oGdeljjUgowjXLjEsFAe08XsEJVzGLGAdEGf7ZOE+FKuZ0Ioh7FSABxr675RBGPRqRfarqwBmSAuNVb1K6c6Wa9DAyk9Gk35K3xPfl8SYDZ5imH2VfGiuIpPpADq93DU0AUY4NP997rdnlOXWNYowOAtr05RWOn5TwWUCPhu1DlEIxXw==",
+    "domain": ".api.puter.com",
+    "hostOnly": false,
+    "path": "/",
+    "secure": false,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778617957.017389,
+    "sameSite": "lax"
+  },
+  {
+    "name": "AWSALBCORS",
+    "value": "9gdjNzTe1sjqDU9y/oDPIwDgxPsYoEqL0moqrFkkEO9fXmS/X+A7mJTQiTr3xWOGRGNfH4lligN3fIGEhy1r8HjH8yazf7tGp0Z1EyH7Kp6aN1CqK3Xjvszk3lPGejzwT6NepOE6DtBbweCf7PHp/NKSSYkgIJGNLhzGrVCDDDUbiTD2D68nOZ5es7l/1Q==",
+    "domain": ".api.puter.com",
+    "hostOnly": false,
+    "path": "/",
+    "secure": true,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778633450.087526,
+    "sameSite": "lax"
+  },
+  {
+    "name": "AWSALBCORS",
+    "value": "sY99v1yM51jbQhWVcdnvjboyjM/chXcUm17Fa0cdxq+YWYzLP6yTGqlCdKWJ4FRee8BQM8fm3bpULPxcacZl5CAwGYmnUu5ryPT2+EFFhQH+1rCsy/m4m9+kKR92EXHqEuc5SZWQ9w18s4nklWVW/aRrobPOo28dM2yRUSIZNUI42DmHX385WC1lOA5cnQ==",
+    "domain": "api.puter.com",
+    "hostOnly": true,
+    "path": "/",
+    "secure": true,
+    "httpOnly": false,
+    "session": false,
+    "expirationDate": 1778634782.753066,
+    "sameSite": "no_restriction"
+  }
+]

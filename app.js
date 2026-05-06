@@ -1546,7 +1546,7 @@ close.addEventListener('click', ()=>{
                             <span>\${profile.title}</span>
                             <div>
                             <button class="edit-profile" data-index="\${index}" onclick="editProfile(this)">Edit</button>
-                                <button class="delete-profile" data-title="\${profile.title}" onclick="deleteProfile('\${profile.title}')">Delete</button>
+                                <button class="delete-profile" data-title="\${profile.title}" onclick="deleteProfile('\${profile.title}', this)">Delete</button>
                             </div>
                         \`;
                         profileList.appendChild(profileItem);
@@ -1610,6 +1610,8 @@ close.addEventListener('click', ()=>{
                     loadProfilesList(); // Refresh the profile list
                     this.reset(); // Reset the form fields
                     this.style.display = 'none'; // Hide the form
+                    document.getElementById('profileModal').style.display = 'none';
+                    document.body.style.overflow = 'auto';
                     setTimeout(function() { window.location.reload(); }, 500);
                 } else {
                     showNotification('Failed to update profile.', 'error');
@@ -1625,10 +1627,17 @@ close.addEventListener('click', ()=>{
         
         
         // Function to delete a profile
-        function deleteProfile(title) {
-            const confirmation = confirm(\`Are you sure you want to delete the profile "\${title}"?\`);
-            if (!confirmation) {
-                return; // If the user cancels, exit the function
+        function deleteProfile(title, btn) {
+            if (btn && btn.textContent === 'Delete') {
+                btn.textContent = 'Sure?';
+                btn.style.backgroundColor = '#8B0000';
+                setTimeout(() => {
+                    if (btn && btn.textContent === 'Sure?') {
+                        btn.textContent = 'Delete';
+                        btn.style.backgroundColor = '#F44336';
+                    }
+                }, 3000);
+                return;
             }
         
             fetch(\`/profiles/\${encodeURIComponent(title)}\`, {
@@ -1645,6 +1654,8 @@ close.addEventListener('click', ()=>{
             .then(data => {
                 showNotification(\`Profile "\${title}" deleted successfully.\`);
                 loadProfilesList(); // Refresh the list in the modal
+                document.getElementById('profileModal').style.display = 'none';
+                document.body.style.overflow = 'auto';
                 setTimeout(function() { window.location.reload(); }, 500);
             })
             .catch(error => {
@@ -1803,7 +1814,8 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ oldTitle, newTitle, newCommand, newUrl, newProfile }) // Include newProfile
                 }).then(() => {
-                    location.reload();
+                    showNotification('Command updated successfully!');
+                    setTimeout(() => window.location.reload(), 500);
                 });
             }
 
@@ -1924,7 +1936,10 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({ title })
-                }).then(() => location.reload());
+                }).then(() => {
+                    showNotification('Command deleted successfully!');
+                    setTimeout(() => window.location.reload(), 500);
+                });
             }
 
         </script>
