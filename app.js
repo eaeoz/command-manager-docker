@@ -268,7 +268,7 @@ app.get('/', (req, res) => {
                 text-align: left;
                 background-color: white;
                 margin: 5% auto;
-                padding: 30px;
+                padding: 15px;
                 border: none;
                 width: 90%;
                 max-width: 600px;
@@ -419,17 +419,17 @@ app.get('/', (req, res) => {
             }
 
             .add-profile-form {
-                margin-top: 20px;
+                margin-top: 15px;
                 display: flex;
                 flex-direction: column;
-                gap: 14px;
+                gap: 8px;
             }
 
             .add-profile-form input,
             .edit-profile-form input,
             #styleModal input[type="text"],
             #styleModal select {
-                padding: 12px 16px;
+                padding: 8px 12px;
                 width: 100%;
                 border-radius: 8px;
                 border: 1px solid #e0e0e0;
@@ -571,7 +571,7 @@ app.get('/', (req, res) => {
     display: flex;
     gap: 4px;
     border-bottom: 2px solid #f0f0f0;
-    margin-bottom: 24px;
+    margin-bottom: 12px;
     padding-bottom: 0;
 }
 
@@ -640,14 +640,14 @@ app.get('/', (req, res) => {
 
 /* Command Style Modal */
 #styleModal .modal-content h2 {
-    margin-bottom: 24px;
+    margin-bottom: 12px;
 }
 
 #styleModal label {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 12px 16px;
+    gap: 8px;
+    padding: 6px 12px;
     background-color: #fafafa;
     border-radius: 10px;
     border: 1px solid #f0f0f0;
@@ -697,7 +697,7 @@ app.get('/', (req, res) => {
 
 #styleModal div[style*="flex-direction:column"] {
     background-color: #fafafa;
-    padding: 24px;
+    padding: 12px;
     border-radius: 12px;
     border: 1px solid #f0f0f0;
 }
