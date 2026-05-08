@@ -1436,7 +1436,7 @@ close.addEventListener('click', ()=>{
         // Close the modal
         closeProfileModal.addEventListener('click', () => {
             profileModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
         });
 
         // Style Modal functionality
@@ -1445,7 +1445,7 @@ close.addEventListener('click', ()=>{
 
         closeStyleModal.addEventListener('click', () => {
             styleModal.style.display = 'none';
-            document.body.style.overflow = 'auto';
+            document.body.style.overflow = '';
         });
 
         // Open style modal on right-click
@@ -1537,11 +1537,11 @@ close.addEventListener('click', ()=>{
         window.onclick = (event) => {
             if (event.target === profileModal) {
                 profileModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = '';
             }
             if (event.target === styleModal) {
                 styleModal.style.display = 'none';
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = '';
             }
         };
         
@@ -1624,7 +1624,7 @@ close.addEventListener('click', ()=>{
                     this.reset(); // Reset the form fields
                     this.style.display = 'none'; // Hide the form
                     document.getElementById('profileModal').style.display = 'none';
-                    document.body.style.overflow = 'auto';
+                    document.body.style.overflow = '';
                     setTimeout(function() { window.location.reload(); }, 500);
                 } else {
                     showNotification('Failed to update profile.', 'error');
@@ -1668,7 +1668,7 @@ close.addEventListener('click', ()=>{
                 showNotification(\`Profile "\${title}" deleted successfully.\`);
                 loadProfilesList(); // Refresh the list in the modal
                 document.getElementById('profileModal').style.display = 'none';
-                document.body.style.overflow = 'auto';
+                document.body.style.overflow = '';
                 setTimeout(function() { window.location.reload(); }, 500);
             })
             .catch(error => {
