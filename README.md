@@ -33,7 +33,7 @@
 
 ## 📥 Downloads
 
-**Note:** AI feature is available only in the Docker version. Windows portable and setup versions do not include AI functionality.
+> **⚠️ IMPORTANT:** AI feature is available **only** in the **Docker version**. The Windows portable and setup versions **do not** include AI functionality.
 
 **Installer**
 
