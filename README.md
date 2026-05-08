@@ -12,24 +12,21 @@
 
 **Installer**
 
-- Windows x64 | [Command Manager Setup 1.0.5.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.5/Command.Manager.Setup.1.0.5.exe)
+- Windows x64 | [Command Manager Setup 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager.Setup.1.0.6.exe)
 
 **Portable**
 
-- Windows x64 | [Command Manager Portable 1.0.5.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.5/Command.Manager_portable_1.0.5.exe)
+- Windows x64 | [Command Manager Portable 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager_portable_1.0.6.exe)
 
 ---
 
-## 🚀 What's New in 1.0.5
+## 🚀 What's New in 1.0.6
 
-* **Persistent AI Authentication:** Electron app now securely stores and automatically reads Puter auth cookies.
-* **Modernized Navigation:** Sleek glassmorphism menu with fluid animations and brand colors.
-* **Focus & Stability:** Eradicated "frozen textbox" bugs by replacing native OS dialogs with beautiful in-app notifications and fixing modal transitions.
-* **Refined Layouts:** More compact modals and fixed scrollbar layout glitches.
+* **Scroll Bar Fix:** Fixed bug where horizontal and vertical scroll bars incorrectly appeared on main window after opening and closing "Manage Profiles" modal.
 
 **Docker**
 
-- Cross-platform | `docker pull eaeoz/command-manager-docker:5`
+- Cross-platform | `docker pull eaeoz/command-manager-docker:6`
 
 ---
 
@@ -52,12 +49,12 @@
 ### Windows (Recommended)
 
 **Option 1: Installer**
-1. Download `Command Manager Setup 1.0.5.exe`
+1. Download `Command Manager Setup 1.0.6.exe`
 2. Run the installer and follow the setup wizard
 3. Launch from Start Menu
 
 **Option 2: Portable**
-1. Download `Command Manager_portable_1.0.5.exe`
+1. Download `Command Manager_portable_1.0.6.exe`
 2. Place in any folder
 3. Run directly - no installation needed
 
@@ -73,7 +70,7 @@
 version: "3"
 services:
   app:
-    image: eaeoz/command-manager-docker:5
+    image: eaeoz/command-manager-docker:6
     ports:
       - "3000:3000"
     volumes:
@@ -92,7 +89,7 @@ docker run -d \
   -p 3000:3000 \
   -v $(pwd)/config:/app/config \
   --name command-manager \
-  eaeoz/command-manager-docker:5
+  eaeoz/command-manager-docker:6
 ```
 
 Access at: `http://localhost:3000`

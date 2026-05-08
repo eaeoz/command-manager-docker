@@ -1,5 +1,17 @@
 # Changelog
 
+## [1.0.6] - 2026-05-08
+
+### Fixed
+- **Scroll Bar Issue**: Fixed bug where horizontal and vertical scroll bars incorrectly appeared on main window after opening and closing "Manage Profiles" modal. Reset body overflow to default state when closing modals.
+
+### Downloads
+- **Installer**: [Command Manager Setup 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager.Setup.1.0.6.exe)
+- **Portable**: [Command Manager Portable 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager_portable_1.0.6.exe)
+- **Docker**: `docker pull eaeoz/command-manager-docker:6`
+
+---
+
 ## [1.0.5] - 2026-05-06
 
 ### Added
