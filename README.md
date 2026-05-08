@@ -7,19 +7,6 @@
 
 ---
 
-## 📥 Downloads
-
-
-**Installer**
-
-- Windows x64 | [Command Manager Setup 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager.Setup.1.0.6.exe)
-
-**Portable**
-
-- Windows x64 | [Command Manager Portable 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager_portable_1.0.6.exe)
-
----
-
 ## 🚀 What's New in 1.0.6
 
 * **Scroll Bar Fix:** Fixed bug where horizontal and vertical scroll bars incorrectly appeared on main window after opening and closing "Manage Profiles" modal.
@@ -44,9 +31,21 @@
 
 ---
 
-## 🚀 Quick Start
+## 📥 Downloads
 
-### Windows (Recommended)
+**Note:** AI feature is available only in the Docker version. Windows portable and setup versions do not include AI functionality.
+
+**Installer**
+
+- Windows x64 | [Command Manager Setup 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager.Setup.1.0.6.exe)
+
+**Portable**
+
+- Windows x64 | [Command Manager Portable 1.0.6.exe](https://github.com/eaeoz/command-manager-docker/releases/download/1.0.6/Command.Manager_portable_1.0.6.exe)
+
+---
+
+## 🚀 Quick Start for Windows
 
 **Option 1: Installer**
 1. Download `Command Manager Setup 1.0.6.exe`

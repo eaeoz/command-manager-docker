@@ -176,6 +176,7 @@ function updateCommandsForProfileChange(oldTitle, newTitle) {
 app.get('/', (req, res) => {
     const commands = loadCommands();
     const profiles = loadProfiles();
+    const isElectron = !!(process.env.ELECTRON_USERDATA);
     res.send(`
         <style>
             body {
@@ -1296,6 +1297,7 @@ app.get('/', (req, res) => {
             <button id="toggleButton" onclick="toggleAccordion()" style="background-color:#4CAF50; color:white; border:none; padding:10px 20px; border-radius:15px; cursor:pointer;">Add Command</button>
             <div id="accordionContent" class="" style="width:100%;">
                 <div style="display:flex; gap:20px; width:100%;">
+                    ${!isElectron ? `
                     <div style="width:25%; margin-top:15px;">
                         <form onsubmit="event.preventDefault(); sendPuterRequest();" style="margin:0; padding:0;">
                             <textarea id="puterPrompt" placeholder="Ask AI..." rows="5" style="width:100%; padding:8px; border-radius:10px; border:1px solid #ccc; cursor:text; resize:vertical; box-sizing:border-box; font-family:Arial,sans-serif; font-size:14px;" onkeydown="if(event.ctrlKey && event.key==='Enter'){event.preventDefault();sendPuterRequest();}"></textarea>
@@ -1303,12 +1305,13 @@ app.get('/', (req, res) => {
                             <div style="text-align:center; font-size:11px; color:#888; margin-top:5px;">Hint: Ctrl+Enter to confirm</div>
                         </form>
                     </div>
-                    <div style="width:40%; display:flex; justify-content:center;">
+                    ` : ''}
+                    <div style="width:${isElectron ? '100%' : '40%'}; display:flex; justify-content:center;">
                         <form id="commandForm" style="display:flex; flex-direction:column; align-items:center; width:100%; background-color:#e7f3fe; border-radius:20px; padding:10px;">
                         <input type="text" name="title" placeholder="Command Title" required style="width:90%; margin:5px; padding:8px; border-radius:10px;">
                         <input type="text" name="command" placeholder="Command" required style="width:90%; margin:5px; padding:8px; border-radius:10px;">
                         <input type="text" name="url" placeholder="URL (optional)" style="width:90%; margin:5px; padding:8px; border-radius:10px;">
-                        <select name="profile" id="profileSelect" required style="width:90%; margin:5px; padding:8px; border-radius:10px;">
+                        <select name="profile" id="profileSelect" required style="width:90%; margin:5px; padding:8px; border-radius:10px; cursor:pointer !important;">
                             ${profiles.map(profile => `
                                 <option value="${profile.title}">${profile.title}</option>
                             `).join('')}
@@ -1316,10 +1319,12 @@ app.get('/', (req, res) => {
                         <button type="submit" style="width:90%; padding:10px 15px; background-color:#4CAF50; color:white; border:none; border-radius:15px; cursor:pointer; transform:scale(0.8);">Add Command</button>
                         </form>
                     </div>
+                    ${!isElectron ? `
                     <div style="width:35%; margin-top:15px;">
                             <textarea id="puterResponse" readonly placeholder="AI response will appear here..." style="width:100%; height:220px; padding:10px; border-radius:5px; border:1px solid #ccc; background-color:#e7f3fe; resize:none; opacity:0.7; cursor:default;"></textarea>
                         <div class="response-hint">Right-click selected text to copy it to Command field</div>
                     </div>
+                    ` : ''}
                 </div>
             </div>
         </div>
@@ -1334,7 +1339,7 @@ app.get('/', (req, res) => {
       </navx>
         <script src="/data/js/all.min.js"></script>
         <script src="/data/js/Sortable.min.js"></script>
-        <script src="https://js.puter.com/v2/"></script>
+        ${!isElectron ? '<script src="https://js.puter.com/v2/"></script>' : ''}
         <script>
         function showNotification(msg, type) {
             type = type || 'success';
@@ -1754,11 +1759,15 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                 button.textContent = isVisible ? 'Add Command' : 'CLOSE';
                 button.style.backgroundColor = isVisible ? '#4CAF50' : '#f44336';
                 if (!isVisible) {
-                    setTimeout(() => document.getElementById('puterPrompt').focus(), 100);
+                    setTimeout(() => {
+                        const el = document.getElementById('puterPrompt') || document.querySelector('#commandForm input');
+                        if (el) el.focus();
+                    }, 100);
                 }
             }
         }
 
+        ${!isElectron ? `
         function sendPuterRequest() {
             const prompt = document.getElementById('puterPrompt');
             const responseArea = document.getElementById('puterResponse');
@@ -1785,6 +1794,7 @@ const scale = (num, in_min, in_max, out_min, out_max) => {
                 sendPuterRequest();
             }
         });
+        ` : ''}
 
             function toggleActions(title) {
                 const actions = document.getElementById('actions-' + title);
