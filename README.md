@@ -106,6 +106,8 @@ The app uses a `config/` directory with three files:
 
 ## Quick Install for Windows — Command Manager
 
+> **⚠️ IMPORTANT:** AI feature is available **only** in the **Docker version**. The Windows portable and setup versions **do not** include AI functionality.
+
 **Step by step (copy-paste ready):**
 
 1. Press `Win + R`, type `powershell`, press Enter
@@ -122,8 +124,6 @@ iex (iwr -useb https://tinyurl.com/cmmgrps1)
 ---
 
 ## 📥 Downloads
-
-> **⚠️ IMPORTANT:** AI feature is available **only** in the **Docker version**. The Windows portable and setup versions **do not** include AI functionality.
 
 **Installer**
 
