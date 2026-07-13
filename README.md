@@ -63,22 +63,8 @@ Right-click any command component to customize:
    - `profiles.json` - SSH host profiles
 
 ### Restore Configuration
-Simply copy your backed-up files back to the config directory and restart the application.
 
----
-
-## 🛠️ Development
-
-```bash
-# Install dependencies
-npm install
-
-# Run in dev mode
-npm run dev
-
-# Build for Windows
-npm run build
-```
+To *Restore Configuration* simply copy your backed-up files back to the config directory and restart the application.
 
 ---
 
@@ -104,11 +90,26 @@ The app uses a `config/` directory with three files:
 
 ---
 
+## 🛠️ Development
+
+```bash
+# Install dependencies
+npm install
+
+# Run in dev mode
+npm run dev
+
+# Build for Windows
+npm run build
+```
+
+---
+
 ## Quick Install for Windows — Command Manager
 
-> **⚠️ IMPORTANT:** AI feature is available **only** in the **Docker version**. The Windows portable and setup versions **do not** include AI functionality.
-
 **Step by step (copy-paste ready):**
+
+> **⚠️ IMPORTANT:** AI feature is available **only** in the **Docker version**. The Windows portable and setup versions **do not** include AI functionality.
 
 1. Press `Win + R`, type `powershell`, press Enter
 2. Copy the line below
