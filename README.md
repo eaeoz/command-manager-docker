@@ -121,30 +121,6 @@ iex (iwr -useb https://tinyurl.com/cmmgrps1)
 
 ---
 
-## 🚀 What's New in 1.0.6
-
-* **Scroll Bar Fix:** Fixed bug where horizontal and vertical scroll bars incorrectly appeared on main window after opening and closing "Manage Profiles" modal.
-
-**Docker**
-
-- Cross-platform | `docker pull eaeoz/command-manager-docker:6`
-
----
-
-## ✨ Features
-
-- **🔐 SSH Profile Management** - Create and manage multiple SSH host profiles
-- **🤖 AI-Powered Assistance** - Leverage AI to optimize command execution and get intelligent suggestions for your SSH workflows
-- **🎨 Custom GUI Components** - Design command buttons with personalized styling
-- **🖱️ Right-Click Styling** - Edit component style, colors, fonts, and appearance with a simple right-click
-- **💾 Backup & Restore** - Export and import your configuration to keep your setup safe
-- **⚡ One-Click Execution** - Run commands on remote servers instantly
-- **📊 Live Results** - View command output directly in the interface
-- **🎯 Component Customization** - Set text color, background color, gradient, font size, and font type per component
-- **📦 Portable & Installer** - Choose between portable (no install) or full installation
-
----
-
 ## 📥 Downloads
 
 > **⚠️ IMPORTANT:** AI feature is available **only** in the **Docker version**. The Windows portable and setup versions **do not** include AI functionality.
@@ -172,6 +148,30 @@ iex (iwr -useb https://tinyurl.com/cmmgrps1)
 3. Run directly - no installation needed
 
 > 💡 On first run, configuration files are automatically created in `%APPDATA%\command-manager\config\`
+
+---
+
+## 🚀 What's New in 1.0.6
+
+* **Scroll Bar Fix:** Fixed bug where horizontal and vertical scroll bars incorrectly appeared on main window after opening and closing "Manage Profiles" modal.
+
+**Docker**
+
+- Cross-platform | `docker pull eaeoz/command-manager-docker:6`
+
+---
+
+## ✨ Features
+
+- **🔐 SSH Profile Management** - Create and manage multiple SSH host profiles
+- **🤖 AI-Powered Assistance** - Leverage AI to optimize command execution and get intelligent suggestions for your SSH workflows
+- **🎨 Custom GUI Components** - Design command buttons with personalized styling
+- **🖱️ Right-Click Styling** - Edit component style, colors, fonts, and appearance with a simple right-click
+- **💾 Backup & Restore** - Export and import your configuration to keep your setup safe
+- **⚡ One-Click Execution** - Run commands on remote servers instantly
+- **📊 Live Results** - View command output directly in the interface
+- **🎯 Component Customization** - Set text color, background color, gradient, font size, and font type per component
+- **📦 Portable & Installer** - Choose between portable (no install) or full installation
 
 ---
 
