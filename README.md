@@ -7,6 +7,22 @@
 
 ---
 
+## 📸 Screenshots
+
+### Main Interface
+![Main](sample_preview/main.jpg)
+
+### Add Profile
+![Add Profile](sample_preview/add_profile.jpg)
+
+### Edit Profile
+![Edit Profile](sample_preview/edit_profile.jpg)
+
+### Backup & Restore
+![Backup & Restore](sample_preview/backup_restore.jpg)
+
+---
+
 ### Docker
 
 #### Using Docker Compose (Recommended)
