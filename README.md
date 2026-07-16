@@ -21,6 +21,9 @@
 ### Backup & Restore
 ![Backup & Restore](sample_preview/backup_restore.jpg)
 
+### Sample Preview
+![Sample Preview](sample_preview/sample_preview.jpg)
+
 ---
 
 ### Docker
