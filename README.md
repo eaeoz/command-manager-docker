@@ -143,6 +143,14 @@ iex (iwr -useb https://tinyurl.com/cmmgrps1)
 
 ---
 
+<p align="center">
+  <a href="https://eaeoz.github.io/5_Free_Apps_Bundle">
+    <img src="https://img.shields.io/badge/⭐_Official_Website-5_Free_Apps_Bundle-ff4444?style=for-the-badge" alt="Official Website">
+  </a>
+</p>
+
+---
+
 ## 📥 Downloads
 
 **Installer**
